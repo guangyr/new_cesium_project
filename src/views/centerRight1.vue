@@ -2,15 +2,15 @@
   <div id="centerRight1">
     <div class="bg-color-black">
       <div class="d-flex pt-2 pl-2">
-        <span>
+        <!-- <span>
           <icon name="chart-line" class="text-icon"></icon>
-        </span>
+        </span> -->
         <div class="d-flex">
-          <span class="fs-xl text mx-2">任务完成排行榜</span>
+          <span class="fs-xl text mx-2">排行榜</span>
         </div>
       </div>
       <div class="d-flex jc-center body-box">
-        <dv-scroll-board class="dv-scr-board" :config="config" />
+        <!-- <dv-scroll-board class="dv-scr-board" :config="config" /> -->
       </div>
     </div>
   </div>
@@ -52,15 +52,15 @@ export default {
 #centerRight1 {
   padding: 16px;
   padding-top: 20px;
-  height: 410px;
+  height: 100%;
   width: 300px;
   border-radius: 5px;
 }
 #centerRight1 .bg-color-black {
-  height: 380px;
+  height: 100%;
   border-radius: 10px;
 }
-#centerRight1 .text {
+/* #centerRight1 .text {
   color: #c3cbde;
 }
 #centerRight1 .body-box {
@@ -70,5 +70,5 @@ export default {
 #centerRight1 .body-box .dv-scr-board {
   width: 270px;
   height: 340px;
-}
+} */
 </style>

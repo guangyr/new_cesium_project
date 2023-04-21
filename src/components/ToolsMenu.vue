@@ -7,22 +7,15 @@
         </li>
       </ul>
     </div>
-    <MeasureTools
-      v-if="current_action === 'measure'"
-      :statu="panel_statu"
-      :id="current_id"
-      :title="current_title"
-      :action="current_action"
-    ></MeasureTools>
   </div>
 </template>
 
 <script>
-import MeasureTools from './ToolBox/MesureTools';
+// import MeasureTools from './ToolBox/MesureTools';
 export default {
   name: 'ToolsMenu',
   components: {
-    MeasureTools,
+    // MeasureTools,
   },
   data() {
     return {
@@ -33,32 +26,24 @@ export default {
         { id: 4, title: '模型分析', action: 'modelAnalysis' },
         { id: 5, title: '综合分析', action: ' generalizedAnalysis' },
       ],
-      panel_statu: false,
-      current_id: NaN,
-      current_title: '',
-      current_action: '',
     };
   },
   methods: {
     shiftPanel(item) {
-      if (Object.is(this.current_id, NaN)) {
+      if (Object.is(this.$store.state.current_id, NaN)) {
         // 不能直接用 === 判断 nan 的情况，因为 NaN 不等于 任何 类型的整数。
-        this.panel_statu = !this.panel_statu;
-        this.current_id = item.id;
-        this.current_title = item.title;
-        this.current_action = item.action;
-      } else if (this.current_id === item.id) {
+
+        this.$store.commit('ChangePanelStatu');
+        this.$store.commit('ChangeCurrentMenu', item);
+      } else if (this.$store.state.current_id === item.id) {
+        console.log('重复点击,关闭');
         // 重复点击一个菜单项, 关闭选项, 清空参数, 下次再打开该菜单项走 第一个逻辑
-        this.panel_statu = !this.panel_statu;
-        this.current_id = NaN;
-        this.current_title = '';
-        this.current_action = '';
+        this.$store.commit('ChangePanelStatu');
+        this.$store.commit('ResetMenuStatu', item);
       } else {
         console.log('A3');
         // 不关闭选项, 直接切换菜单项
-        this.current_id = item.id;
-        this.current_title = item.title;
-        this.current_action = item.action;
+        this.$store.commit('ChangeCurrentMenu', item);
       }
     },
   },
@@ -67,10 +52,11 @@ export default {
 
 <style scoped>
 .tools-menu-button {
-  background-color: #ffffff;
-  border: 1px solid #e4e7ed;
+  /* background-color: #ffffff; */
+  background: linear-gradient(rgba(19, 25, 47, 0.6), #03050c);
+  /* border: 1px solid #e4e7ed; */
   border-radius: 1px;
-  box-shadow: 0 0 12px rgba(0, 0, 0, 0.12);
+  box-shadow: 0 0 12px rgba(#2e6099, 0.12);
 }
 .tools-menu ul {
   margin: 0;
@@ -82,7 +68,7 @@ export default {
   margin: 8px 0;
   padding: 0 15px;
   text-align: center;
-  border-left: 1px solid #ebeef5;
+  /* border-left: 1px solid #ebeef5; */
   font-size: 12px;
   /* 禁止复制 */
   -webkit-user-select: none; /* Safari */

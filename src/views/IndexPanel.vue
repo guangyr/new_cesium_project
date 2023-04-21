@@ -2,7 +2,9 @@
   <div id="index">
     <div class="bg">
       <dv-loading v-if="loading">Loading...</dv-loading>
+
       <div v-else class="host-body">
+        <!-- 头部盒子 -->
         <div class="d-flex jc-center header-decoration">
           <dv-decoration-10 class="dv-dec-10" />
 
@@ -24,43 +26,25 @@
           </div>
           <dv-decoration-10 class="dv-dec-10-s" />
         </div>
-
+        <!-- 中间大盒子 -->
         <div class="body-box">
-          <!-- 第三行数据 -->
           <div class="content-box">
             <div>
               <dv-border-box-13>
                 <centerLeft1 />
               </dv-border-box-13>
             </div>
-            <div>
+            <div class="center-map-box">
               <dv-border-box-12>
-                <centerLeft2 />
+                <center></center>
               </dv-border-box-12>
             </div>
-            <!-- 中间 -->
-            <!-- <div>
-              <center></center>
-            </div> -->
-            <!-- 中间 -->
-            <div>
-              <centerRight2 />
-            </div>
+
             <div>
               <dv-border-box-13>
                 <centerRight1 />
               </dv-border-box-13>
             </div>
-          </div>
-
-          <!-- 第四行数据 -->
-          <div class="bottom-box">
-            <dv-border-box-13>
-              <bottomLeft />
-            </dv-border-box-13>
-            <dv-border-box-12>
-              <bottomRight />
-            </dv-border-box-12>
           </div>
         </div>
       </div>
@@ -72,12 +56,8 @@
 import drawMixin from '../utils/drawMixin';
 import { formatTime } from '../utils/index.js';
 import centerLeft1 from './centerLeft1';
-import centerLeft2 from './centerLeft2';
 import centerRight1 from './centerRight1';
-import centerRight2 from './centerRight2';
 import center from './center';
-import bottomLeft from './bottomLeft';
-import bottomRight from './bottomRight';
 
 export default {
   mixins: [drawMixin],
@@ -94,16 +74,13 @@ export default {
   },
   components: {
     centerLeft1,
-    centerLeft2,
-    // centerRight1,
-    // centerRight2,
+    centerRight1,
     center,
-    // bottomLeft,
-    // bottomRight,
   },
   mounted() {
-    this.timeFn();
+    // this.timeFn();
     this.cancelLoading();
+    console.log('indexPanel组件:', window.viewer);
   },
   beforeDestroy() {
     clearInterval(this.timing);
@@ -128,37 +105,34 @@ export default {
 <style scoped>
 #index {
   color: #d3d6dd;
-  /* width: 1920px;
-  height: 1080px; */
   width: 100vw;
   height: 100vh;
-  /* position: absolute; */
-  /* top: 50%;
-  left: 50%; */
-  /* transform: translate(-50%, -50%); */
-  /* transform-origin: left top; */
-  overflow: hidden;
 }
 
 #index .bg {
-  width: 100%;
-  height: 100%;
+  width: 100vw;
+  height: 100vh;
   padding: 6px 6px 0 6px;
+  /* 控制最顶部装饰线位置 */
   background-image: url('../assets/pageBg.png');
   background-size: cover;
   background-position: center center;
 }
-
+#index .host-body {
+  display: flex;
+  flex-direction: column;
+}
 #index .host-body .dv-dec-10,
 #index .host-body .dv-dec-10-s {
   width: 33.3%;
   height: 5px;
 }
 
-#index .host-body .dv-dec-10-s {
+/* #index .host-body .dv-dec-10-s {
   transform: rotateY(180deg);
-}
+} */
 
+/* 头部装饰盒子 */
 #index .host-body .dv-dec-8 {
   width: 200px;
   height: 50px;
@@ -189,16 +163,43 @@ export default {
   transform: translate(-50%);
 }
 
-#index .host-body .aside-width {
+#index .host-body .body-box {
+  /* display: flex; */
+  /* flex-direction: column; */
+  /* flex-direction: row; */
+  margin-top: 5px;
+  flex: 1;
+  /* justify-content: space-between; */
+}
+
+#index .host-body .body-box .content-box {
+  display: flex;
+  justify-content: space-between;
+}
+#index .host-body .body-box .center-map-box {
+  flex: 1;
+  margin: 0 10px;
+}
+/* #index .host-body .body-box .dv-border-box-12 {
+  height: 100%;
+} */
+
+/* #index .host-body .body-box .bottom-box {
+  margin-top: 10px;
+  display: grid;
+  grid-template-columns: repeat(2, 50%);
+} */
+
+/* #index .host-body .aside-width {
   width: 40%;
 }
 
 #index .host-body .react-r-s,
 #index .host-body .react-l-s {
   background-color: #0f1325;
-}
+} */
 
-#index .host-body .react-right {
+/* #index .host-body .react-right {
   font-size: 18px;
   width: 300px;
   line-height: 50px;
@@ -224,9 +225,9 @@ export default {
 #index .host-body .react-right .text {
   display: inline-block;
   transform: skewX(45deg);
-}
+} */
 
-#index .host-body .react-left {
+/* #index .host-body .react-left {
   font-size: 18px;
   width: 300px;
   height: 50px;
@@ -234,14 +235,14 @@ export default {
   text-align: center;
   transform: skewX(45deg);
   background-color: #0f1325;
-}
+} */
 
-#index .host-body .react-left.react-l-s {
+/* #index .host-body .react-left.react-l-s {
   width: 500px;
   text-align: left;
-}
+} */
 
-#index .host-body .react-left .react-left {
+/* #index .host-body .react-left .react-left {
   position: absolute;
   left: -25px;
   top: 0;
@@ -249,28 +250,10 @@ export default {
   width: 50px;
   background-color: #0f1325;
   transform: skewX(-45deg);
-}
+} */
 
-#index .host-body .react-left .text {
+/* #index .host-body .react-left .text {
   display: inline-block;
   transform: skewX(-45deg);
-}
-
-#index .host-body .body-box {
-  margin-top: 26px;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-}
-
-#index .host-body .body-box .content-box {
-  display: grid;
-  grid-template-columns: 2fr 3fr 5fr 3fr 2fr;
-}
-
-#index .host-body .body-box .bottom-box {
-  margin-top: 10px;
-  display: grid;
-  grid-template-columns: repeat(2, 50%);
-}
+} */
 </style>

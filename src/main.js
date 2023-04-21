@@ -3,7 +3,6 @@ import App from './App.vue';
 import router from './router';
 import store from './store';
 import dataV from '@jiaminghi/data-view';
-
 import {
   Button,
   Card,
@@ -44,7 +43,7 @@ Vue.use(DatePicker);
 Vue.config.productionTip = false;
 // 设置允许devtools调试
 Vue.config.devtools = true;
-
+Vue.prototype.globalViewer = null;
 new Vue({
   router,
   store,

@@ -7,54 +7,71 @@
     </template>
     <!-- el-card 功能图标 -->
     <template #content>
-      <i class="iconfont icon-map-ruler"></i
-      ><i class="iconfont icon-mianjiceliang1"> </i>
-      <i class="iconfont icon-poduceliang"></i>
+      <i class="iconfont icon-map-ruler" @click="lengthMeasure()"> </i>
+      <i class="iconfont icon-mianjiceliang1" @click="areaMeasure()"> </i>
+      <i class="iconfont icon-poduceliang" @click="azimuth()"></i>
     </template>
   </MenuInfoPanel>
 </template>
 <script>
 import MenuInfoPanel from '../MenuPanel/MenuInfoPanel';
-
+import { measureToolsConfig } from '../../utils/measureToolConfig.js'; // 定义功能图标配置项列表，可以是模板或组件的
+let measureLengthTool = null;
+let measureAreaTool = null;
+let measureAngulationTool = null;
 export default {
   name: 'MeasureTools',
   components: { MenuInfoPanel },
   data() {
-    return {
-      //测量参数
-    };
+    return {};
   },
   methods: {
     /*距离测量*/
     lengthMeasure() {
-      if (measureLengthTool == undefined) {
-        //创建长度测量工具
-        measureLengthTool = new Cesium.MeasureLengthTool(webGlobe.viewer);
+      stopAllMeasureTool();
+      if (measureLengthTool === null) {
+        const options = measureToolsConfig('length');
+        measureLengthTool = new Cesium.MeasureLengthTool(viewer, options);
       }
-      //开始长度测量
       measureLengthTool.startTool();
     },
-
-    /*停止测量*/
-    stopLengthMeasure() {
-      if (measureLengthTool != undefined) {
-        //停止长度测量工具
+    areaMeasure() {
+      stopAllMeasureTool();
+      if (measureAreaTool === null) {
+        const options = measureToolsConfig('area');
+        measureAreaTool = new Cesium.MeasureAreaTool(viewer, options);
+      }
+      measureAreaTool.startTool();
+    },
+    azimuth() {
+      if (measureAngulationTool === null) {
+        const options = measureToolsConfig('azimuth');
+        measureAngulationTool = new Cesium.AngulationTool(viewer, options);
+      }
+      measureAngulationTool.startTool();
+    },
+    stopAllMeasureTool() {
+      if (measureLengthTool) {
         measureLengthTool.stopTool();
+      }
+      if (measureAreaTool) {
+        measureAreaTool.stopTool();
+      }
+      if (measureAngulationTool) {
+        measureAngulationTool.stopTool();
       }
     },
   },
-  props: ['statu', 'id', 'title', 'action'],
 };
 </script>
 
 <style>
 .item i {
-  padding: 0 5px;
+  padding: 10px 0;
+  color: #00c2ff;
+  font-size: 22px;
 }
 .item i:hover {
   color: #409eff;
-}
-div.el-card__header > div > h3 {
-  margin: 0;
 }
 </style>
