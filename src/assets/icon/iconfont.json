@@ -1,0 +1,100 @@
+{
+  "id": "4022052",
+  "name": "cesium",
+  "font_family": "iconfont",
+  "css_prefix_text": "icon-",
+  "description": "",
+  "glyphs": [
+    {
+      "icon_id": "10555190",
+      "name": "关闭",
+      "font_class": "guanbi",
+      "unicode": "e64b",
+      "unicode_decimal": 58955
+    },
+    {
+      "icon_id": "4777232",
+      "name": "全屏",
+      "font_class": "quanping",
+      "unicode": "ec13",
+      "unicode_decimal": 60435
+    },
+    {
+      "icon_id": "4922627",
+      "name": "导出图片",
+      "font_class": "export-img",
+      "unicode": "e678",
+      "unicode_decimal": 59000
+    },
+    {
+      "icon_id": "5732759",
+      "name": "定位",
+      "font_class": "dingwei",
+      "unicode": "ec32",
+      "unicode_decimal": 60466
+    },
+    {
+      "icon_id": "6866628",
+      "name": "用户管理",
+      "font_class": "yonghuguanli",
+      "unicode": "e600",
+      "unicode_decimal": 58880
+    },
+    {
+      "icon_id": "6876147",
+      "name": "面积测量",
+      "font_class": "mianjiceliang",
+      "unicode": "e77c",
+      "unicode_decimal": 59260
+    },
+    {
+      "icon_id": "9477961",
+      "name": "长度测量",
+      "font_class": "changduceliang",
+      "unicode": "e606",
+      "unicode_decimal": 58886
+    },
+    {
+      "icon_id": "12372002",
+      "name": "漫游",
+      "font_class": "manyou",
+      "unicode": "e601",
+      "unicode_decimal": 58881
+    },
+    {
+      "icon_id": "12571366",
+      "name": "坡度测量",
+      "font_class": "poduceliang",
+      "unicode": "e72d",
+      "unicode_decimal": 59181
+    },
+    {
+      "icon_id": "18171091",
+      "name": "地图尺子,测量,测距,距离",
+      "font_class": "map-ruler",
+      "unicode": "ea07",
+      "unicode_decimal": 59911
+    },
+    {
+      "icon_id": "22434535",
+      "name": "面积测量",
+      "font_class": "mianjiceliang1",
+      "unicode": "e60a",
+      "unicode_decimal": 58890
+    },
+    {
+      "icon_id": "23753698",
+      "name": "ic-粒子图",
+      "font_class": "iconic_lizitu",
+      "unicode": "e602",
+      "unicode_decimal": 58882
+    },
+    {
+      "icon_id": "26005286",
+      "name": "积水监测",
+      "font_class": "jishuijiance",
+      "unicode": "e613",
+      "unicode_decimal": 58899
+    }
+  ]
+}

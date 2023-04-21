@@ -1,0 +1,276 @@
+<template>
+  <div id="index">
+    <div class="bg">
+      <dv-loading v-if="loading">Loading...</dv-loading>
+      <div v-else class="host-body">
+        <div class="d-flex jc-center header-decoration">
+          <dv-decoration-10 class="dv-dec-10" />
+
+          <div class="d-flex jc-center">
+            <dv-decoration-8 class="dv-dec-8" :color="decorationColor" />
+            <div class="title">
+              <span class="title-text">园区管理平台</span>
+              <dv-decoration-6
+                class="dv-dec-6"
+                :reverse="true"
+                :color="['#50e3c2', '#67a1e5']"
+              />
+            </div>
+            <dv-decoration-8
+              class="dv-dec-8"
+              :reverse="true"
+              :color="decorationColor"
+            />
+          </div>
+          <dv-decoration-10 class="dv-dec-10-s" />
+        </div>
+
+        <div class="body-box">
+          <!-- 第三行数据 -->
+          <div class="content-box">
+            <div>
+              <dv-border-box-13>
+                <centerLeft1 />
+              </dv-border-box-13>
+            </div>
+            <div>
+              <dv-border-box-12>
+                <centerLeft2 />
+              </dv-border-box-12>
+            </div>
+            <!-- 中间 -->
+            <!-- <div>
+              <center></center>
+            </div> -->
+            <!-- 中间 -->
+            <div>
+              <centerRight2 />
+            </div>
+            <div>
+              <dv-border-box-13>
+                <centerRight1 />
+              </dv-border-box-13>
+            </div>
+          </div>
+
+          <!-- 第四行数据 -->
+          <div class="bottom-box">
+            <dv-border-box-13>
+              <bottomLeft />
+            </dv-border-box-13>
+            <dv-border-box-12>
+              <bottomRight />
+            </dv-border-box-12>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</template>
+
+<script>
+import drawMixin from '../utils/drawMixin';
+import { formatTime } from '../utils/index.js';
+import centerLeft1 from './centerLeft1';
+import centerLeft2 from './centerLeft2';
+import centerRight1 from './centerRight1';
+import centerRight2 from './centerRight2';
+import center from './center';
+import bottomLeft from './bottomLeft';
+import bottomRight from './bottomRight';
+
+export default {
+  mixins: [drawMixin],
+  data() {
+    return {
+      timing: null,
+      loading: true,
+      dateDay: null,
+      dateYear: null,
+      dateWeek: null,
+      weekday: ['周日', '周一', '周二', '周三', '周四', '周五', '周六'],
+      decorationColor: ['#568aea', '#000000'],
+    };
+  },
+  components: {
+    centerLeft1,
+    centerLeft2,
+    // centerRight1,
+    // centerRight2,
+    center,
+    // bottomLeft,
+    // bottomRight,
+  },
+  mounted() {
+    this.timeFn();
+    this.cancelLoading();
+  },
+  beforeDestroy() {
+    clearInterval(this.timing);
+  },
+  methods: {
+    timeFn() {
+      this.timing = setInterval(() => {
+        this.dateDay = formatTime(new Date(), 'HH: mm: ss');
+        this.dateYear = formatTime(new Date(), 'yyyy-MM-dd');
+        this.dateWeek = this.weekday[new Date().getDay()];
+      }, 1000);
+    },
+    cancelLoading() {
+      setTimeout(() => {
+        this.loading = false;
+      }, 500);
+    },
+  },
+};
+</script>
+
+<style scoped>
+#index {
+  color: #d3d6dd;
+  /* width: 1920px;
+  height: 1080px; */
+  width: 100vw;
+  height: 100vh;
+  /* position: absolute; */
+  /* top: 50%;
+  left: 50%; */
+  /* transform: translate(-50%, -50%); */
+  /* transform-origin: left top; */
+  overflow: hidden;
+}
+
+#index .bg {
+  width: 100%;
+  height: 100%;
+  padding: 6px 6px 0 6px;
+  background-image: url('../assets/pageBg.png');
+  background-size: cover;
+  background-position: center center;
+}
+
+#index .host-body .dv-dec-10,
+#index .host-body .dv-dec-10-s {
+  width: 33.3%;
+  height: 5px;
+}
+
+#index .host-body .dv-dec-10-s {
+  transform: rotateY(180deg);
+}
+
+#index .host-body .dv-dec-8 {
+  width: 200px;
+  height: 50px;
+}
+
+#index .host-body .title {
+  position: relative;
+  width: 500px;
+  text-align: center;
+  background-size: cover;
+  background-repeat: no-repeat;
+}
+
+#index .host-body .title .title-text {
+  font-size: 24px;
+  position: absolute;
+  bottom: 15px;
+  left: 50%;
+  transform: translate(-50%);
+}
+
+#index .host-body .title .dv-dec-6 {
+  position: absolute;
+  bottom: 0px;
+  left: 50%;
+  width: 250px;
+  height: 8px;
+  transform: translate(-50%);
+}
+
+#index .host-body .aside-width {
+  width: 40%;
+}
+
+#index .host-body .react-r-s,
+#index .host-body .react-l-s {
+  background-color: #0f1325;
+}
+
+#index .host-body .react-right {
+  font-size: 18px;
+  width: 300px;
+  line-height: 50px;
+  text-align: center;
+  transform: skewX(-45deg);
+}
+
+#index .host-body .react-right.react-l-s {
+  text-align: right;
+  width: 500px;
+}
+
+#index .host-body .react-right .react-after {
+  position: absolute;
+  right: -25px;
+  top: 0;
+  height: 50px;
+  width: 50px;
+  background-color: #0f1325;
+  transform: skewX(45deg);
+}
+
+#index .host-body .react-right .text {
+  display: inline-block;
+  transform: skewX(45deg);
+}
+
+#index .host-body .react-left {
+  font-size: 18px;
+  width: 300px;
+  height: 50px;
+  line-height: 50px;
+  text-align: center;
+  transform: skewX(45deg);
+  background-color: #0f1325;
+}
+
+#index .host-body .react-left.react-l-s {
+  width: 500px;
+  text-align: left;
+}
+
+#index .host-body .react-left .react-left {
+  position: absolute;
+  left: -25px;
+  top: 0;
+  height: 50px;
+  width: 50px;
+  background-color: #0f1325;
+  transform: skewX(-45deg);
+}
+
+#index .host-body .react-left .text {
+  display: inline-block;
+  transform: skewX(-45deg);
+}
+
+#index .host-body .body-box {
+  margin-top: 26px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+#index .host-body .body-box .content-box {
+  display: grid;
+  grid-template-columns: 2fr 3fr 5fr 3fr 2fr;
+}
+
+#index .host-body .body-box .bottom-box {
+  margin-top: 10px;
+  display: grid;
+  grid-template-columns: repeat(2, 50%);
+}
+</style>

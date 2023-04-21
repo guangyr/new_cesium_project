@@ -13,17 +13,19 @@
   <script type="text/javascript" src="./libs/include-lib-local.js"></script>
   <script type="text/javascript" src="./libs/include-cesium-local.js" type="text/javascript"></script>
   <script>
-    function init() {
-      //构造三维视图类（视图容器div的id，三维视图设置参数）
-      viewer = new Cesium.Viewer('app', {});
-      viewer.showPosition();
-      //打开深度检测
-      viewer.scene.globe.depthTestAgainstTerrain = true;
-    }
+    // function init() {
+    //   //构造三维视图类（视图容器div的id，三维视图设置参数）
+    //   viewer = new Cesium.Viewer('app', {});
+    //   viewer.showPosition();
+    //   //打开深度检测
+    //   viewer.scene.globe.depthTestAgainstTerrain = true;
+    // }
   </script>
 </head>
 
-<body onload="init()">
+<body>
+
+  <!-- <body onload="init()"> -->
   <noscript>
     <strong>We're sorry but <%= htmlWebpackPlugin.options.title %> doesn't work properly without JavaScript enabled.
         Please enable it to continue.</strong>
