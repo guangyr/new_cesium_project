@@ -3,7 +3,7 @@
     <div class="tools-menu-button">
       <ul>
         <li v-for="item in menu_list" :key="item.id" @click="shiftPanel(item)">
-          {{ item.title }}
+          <span :class="item.icon" class="iconfont"></span> {{ item.title }}
         </li>
       </ul>
     </div>
@@ -20,12 +20,38 @@ export default {
   data() {
     return {
       menu_list: [
-        { id: 1, title: '测量工具', action: 'measure' },
-        { id: 2, title: '可视化', action: 'visualization' },
-        { id: 3, title: '光源效果', action: 'lightEffect' },
-        { id: 4, title: '模型分析', action: 'modelAnalysis' },
-        { id: 5, title: '综合分析', action: ' generalizedAnalysis' },
+        {
+          id: 1,
+          icon: 'icon-a-3Dcelianggongju',
+          title: '测量工具',
+          action: 'measure',
+        },
+        {
+          id: 2,
+          icon: 'icon-sanweikeshihua',
+          title: '可视化',
+          action: 'visualization',
+        },
+        {
+          id: 3,
+          icon: 'icon-fanguang',
+          title: '光源效果',
+          action: 'lightEffect',
+        },
+        {
+          id: 4,
+          icon: 'icon-moxingfenxi',
+          title: '模型分析',
+          action: 'modelAnalysis',
+        },
+        {
+          id: 5,
+          icon: 'icon-shouye-moxingfenxi',
+          title: '综合分析',
+          action: ' generalizedAnalysis',
+        },
       ],
+      menuVisibility: true, // 是否显示工具栏. 默认为false. 可选值有:true,false。
     };
   },
   methods: {
@@ -46,34 +72,52 @@ export default {
         this.$store.commit('ChangeCurrentMenu', item);
       }
     },
+    enter() {
+      this.menuVisibility = true;
+    },
+    leave() {
+      this.menuVisibility = false;
+    },
   },
 };
 </script>
 
 <style scoped>
-.tools-menu-button {
-  /* background-color: #ffffff; */
+.tools-menu {
+  display: flex;
+  justify-content: space-around;
+  padding: 3px 5px 0;
   background: linear-gradient(rgba(19, 25, 47, 0.6), #03050c);
   /* border: 1px solid #e4e7ed; */
-  border-radius: 1px;
+  border-radius: 3px;
   box-shadow: 0 0 12px rgba(#2e6099, 0.12);
 }
+.tools-menu-button {
+  margin: 5px 5px 0;
+  width: 620px;
+}
 .tools-menu ul {
-  margin: 0;
   display: flex;
-  justify-content: space-between;
+  justify-content: space-around;
   align-items: center;
 }
 .tools-menu ul li {
-  margin: 8px 0;
-  padding: 0 15px;
-  text-align: center;
-  /* border-left: 1px solid #ebeef5; */
+  width: 95px;
   font-size: 12px;
+  background: url(../assets/images/mapToolBox/bnt.png);
+  font-size: 14px;
+  line-height: 33px;
+  background-repeat: no-repeat;
+  /* height: 35px; */
+  text-align: center;
   /* 禁止复制 */
   -webkit-user-select: none; /* Safari */
-  -ms-user-select: none; /* IE 10+ and Edge */
   user-select: none; /* Standard syntax */
+}
+
+.tools-menu ul li span {
+  margin-left: 6px;
+  margin-top: 2px;
 }
 .tools-menu ul li:hover {
   color: #409eff;

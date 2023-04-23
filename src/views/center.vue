@@ -6,6 +6,11 @@
       <MeasureTools
         v-if="$store.state.current_action === 'measure'"
       ></MeasureTools>
+      <VisualizationTools
+        v-if="$store.state.current_action === 'visualization'"
+      ></VisualizationTools>
+      <LayerShift></LayerShift>
+      <PositionReset></PositionReset>
     </div>
   </div>
 </template>
@@ -13,12 +18,18 @@
 <script>
 import CesiumInit from '@/components/CesiumInit';
 import ToolsMenu from '@/components/ToolsMenu';
-import MeasureTools from '../components/ToolBox/MesureTools';
+import LayerShift from '@/components/LayerShift';
+import PositionReset from '@/components/PositionReset';
+import MeasureTools from '@/components/ToolBox/MesureTools';
+import VisualizationTools from '@/components/ToolBox/VisualizationTools';
 export default {
   components: {
     CesiumInit,
     ToolsMenu,
     MeasureTools,
+    LayerShift,
+    PositionReset,
+    VisualizationTools,
   },
   mounted() {
     // console.log('center组件中viewer:', window.viewer);
@@ -41,10 +52,25 @@ export default {
 .tools-menu {
   position: absolute;
   bottom: 7px;
+  left: 50%;
+  transform: translate(-50%);
 }
 #menu-info-panel {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
   position: absolute;
-  left: 7px;
+  left: 15px;
   top: 40%;
+}
+.layer-shift {
+  position: absolute;
+  top: 30px;
+  right: 40px;
+}
+.position-reset {
+  position: absolute;
+  bottom: 80px;
+  right: 40px;
 }
 </style>

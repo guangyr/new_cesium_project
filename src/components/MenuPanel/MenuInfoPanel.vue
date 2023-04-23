@@ -1,5 +1,5 @@
 <template>
-  <div class="text item" id="menu-info-panel">
+  <div id="menu-info-panel">
     <slot name="content"></slot>
   </div>
 </template>
@@ -9,20 +9,19 @@ export default {
 };
 </script>
 <style scoped>
-.text {
-  font-size: 14px;
-}
-
 #menu-info-panel {
   display: flex;
   flex-direction: column;
   padding: 10px 5px;
-  background-color: #2e6099;
+  /* border: 1px solid #ccc; */
+  /* background-color: #2e6099; */
 }
-.item {
-  display: flex;
-  justify-content: space-around;
-  align-items: center;
-  margin: 0;
+#menu-info-panel .iconfont {
+  font-size: 26px;
+  margin-bottom: 25px;
+}
+#menu-info-panel .iconfont:hover {
+  font-size: 42px;
+  color: #568aea;
 }
 </style>

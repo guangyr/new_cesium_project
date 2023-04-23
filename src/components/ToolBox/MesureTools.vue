@@ -1,10 +1,6 @@
 <template>
   <!-- 展开的面板中添加功能 -->
   <MenuInfoPanel>
-    <template #title>
-      <!-- el-card 标题 -->
-      <h3>{{ title }}</h3>
-    </template>
     <!-- el-card 功能图标 -->
     <template #content>
       <i class="iconfont icon-map-ruler" @click="lengthMeasure()"> </i>
@@ -28,7 +24,7 @@ export default {
   methods: {
     /*距离测量*/
     lengthMeasure() {
-      stopAllMeasureTool();
+      this.stopAllMeasureTool();
       if (measureLengthTool === null) {
         const options = measureToolsConfig('length');
         measureLengthTool = new Cesium.MeasureLengthTool(viewer, options);
@@ -36,7 +32,7 @@ export default {
       measureLengthTool.startTool();
     },
     areaMeasure() {
-      stopAllMeasureTool();
+      this.stopAllMeasureTool();
       if (measureAreaTool === null) {
         const options = measureToolsConfig('area');
         measureAreaTool = new Cesium.MeasureAreaTool(viewer, options);
@@ -44,6 +40,7 @@ export default {
       measureAreaTool.startTool();
     },
     azimuth() {
+      this.stopAllMeasureTool();
       if (measureAngulationTool === null) {
         const options = measureToolsConfig('azimuth');
         measureAngulationTool = new Cesium.AngulationTool(viewer, options);
@@ -65,13 +62,4 @@ export default {
 };
 </script>
 
-<style>
-.item i {
-  padding: 10px 0;
-  color: #00c2ff;
-  font-size: 22px;
-}
-.item i:hover {
-  color: #409eff;
-}
-</style>
+<style></style>
