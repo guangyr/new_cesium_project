@@ -11,7 +11,7 @@
 </template>
 <script>
 import MenuInfoPanel from '../MenuPanel/MenuInfoPanel';
-import { measureToolsConfig } from '../../utils/measureToolConfig.js'; // 定义功能图标配置项列表，可以是模板或组件的
+import { measureToolsConfig } from '../../utils/measureToolConfig.js';
 let measureLengthTool = null;
 let measureAreaTool = null;
 let measureAngulationTool = null;

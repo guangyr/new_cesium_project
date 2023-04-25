@@ -9,6 +9,9 @@
       <VisualizationTools
         v-if="$store.state.current_action === 'visualization'"
       ></VisualizationTools>
+      <GeneralizedAnalysisTools
+        v-if="$store.state.current_action === 'generalizedAnalysis'"
+      ></GeneralizedAnalysisTools>
       <LayerShift></LayerShift>
       <PositionReset></PositionReset>
     </div>
@@ -22,6 +25,7 @@ import LayerShift from '@/components/LayerShift';
 import PositionReset from '@/components/PositionReset';
 import MeasureTools from '@/components/ToolBox/MesureTools';
 import VisualizationTools from '@/components/ToolBox/VisualizationTools';
+import GeneralizedAnalysisTools from '@/components/ToolBox/GeneralizedAnalysisTools';
 export default {
   components: {
     CesiumInit,
@@ -30,6 +34,7 @@ export default {
     LayerShift,
     PositionReset,
     VisualizationTools,
+    GeneralizedAnalysisTools,
   },
   mounted() {
     // console.log('center组件中viewer:', window.viewer);

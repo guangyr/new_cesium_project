@@ -1,12 +1,12 @@
 <template>
   <div class="tools-menu">
-    <div class="tools-menu-button">
-      <ul>
-        <li v-for="item in menu_list" :key="item.id" @click="shiftPanel(item)">
-          <span :class="item.icon" class="iconfont"></span> {{ item.title }}
-        </li>
-      </ul>
-    </div>
+    <ul>
+      <li v-for="item in menu_list" :key="item.id" @click="shiftPanel(item)">
+        <span :class="item.icon" class="iconfont"></span>
+        <span class="title">{{ item.title }}</span>
+      </li>
+    </ul>
+    <div class="tools-menu-button"></div>
   </div>
 </template>
 
@@ -48,7 +48,7 @@ export default {
           id: 5,
           icon: 'icon-shouye-moxingfenxi',
           title: '综合分析',
-          action: ' generalizedAnalysis',
+          action: 'generalizedAnalysis',
         },
       ],
       menuVisibility: true, // 是否显示工具栏. 默认为false. 可选值有:true,false。
@@ -84,40 +84,59 @@ export default {
 
 <style scoped>
 .tools-menu {
-  display: flex;
-  justify-content: space-around;
+  position: relative;
   padding: 3px 5px 0;
-  background: linear-gradient(rgba(19, 25, 47, 0.6), #03050c);
-  /* border: 1px solid #e4e7ed; */
-  border-radius: 3px;
-  box-shadow: 0 0 12px rgba(#2e6099, 0.12);
+  width: 500px;
 }
-.tools-menu-button {
-  margin: 5px 5px 0;
-  width: 620px;
-}
+/* .tools-menu-button {
+  position: absolute;
+  bottom: 0px;
+  left: -10%;
+  width: 600px;
+  height: 30px;
+  background: rgb(78, 102, 181);
+  background: linear-gradient(
+    360deg,
+    rgba(78, 102, 181, 0.9557072829131653) 4%,
+    rgba(72, 129, 195, 0.8240546218487395) 47%,
+    rgba(59, 184, 222, 0.5803571428571428) 78%
+  );
+  border-radius: 100px 100px 0 0;
+  transform: perspective(20px) rotateX(6deg) rotateY(0deg) translateZ(0);
+  z-index: -1;
+} */
 .tools-menu ul {
   display: flex;
   justify-content: space-around;
   align-items: center;
 }
 .tools-menu ul li {
-  width: 95px;
-  font-size: 12px;
-  background: url(../assets/images/mapToolBox/bnt.png);
-  font-size: 14px;
-  line-height: 33px;
-  background-repeat: no-repeat;
-  /* height: 35px; */
-  text-align: center;
-  /* 禁止复制 */
-  -webkit-user-select: none; /* Safari */
-  user-select: none; /* Standard syntax */
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+/* 小圆 */
+.tools-menu ul li .iconfont {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 23px;
+  width: 40px;
+  height: 40px;
+  /* border: 1px solid #00bcff; */
+  border: 1px solid #35dafb;
+  border-radius: 50%;
+  box-shadow: 0 0 0.8em #56e0fc inset, 0 0 0.3em #7ce7fd;
+  box-sizing: border-box;
 }
 
-.tools-menu ul li span {
-  margin-left: 6px;
+.tools-menu ul li .title {
+  /* position: absolute; */
+  /* bottom: -30px; */
   margin-top: 2px;
+  font-size: 12px;
+  color: #f2f2f2;
 }
 .tools-menu ul li:hover {
   color: #409eff;
