@@ -2,9 +2,6 @@
   <div id="centerLeft1">
     <div class="bg-color-black">
       <div class="d-flex pt-2 pl-2">
-        <span>
-          <!-- <icon name="chart-bar" class="text-icon"></icon> -->
-        </span>
         <div class="d-flex">
           <span class="fs-xl text mx-2">通过率</span>
           <dv-decoration-3 class="dv-dec-3" />

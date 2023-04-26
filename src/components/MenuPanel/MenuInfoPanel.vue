@@ -13,6 +13,7 @@ export default {
   display: flex;
   flex-direction: column;
   padding: 10px 5px;
+  width: 35px;
   /* border: 1px solid #ccc; */
   /* background-color: #2e6099; */
 }

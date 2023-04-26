@@ -55,7 +55,12 @@ export default {
       viewer.scene.screenSpaceCameraController.maximumZoomDistance = 19000000;
       viewer.scene.layers.appendM3DLayer(
         'http://webclient.smaryun.com:8200/3DData/ModelCache/M3D//1.0/ZondyFaceModels/ZondyFaceModels.mcj',
-        {}
+        {
+          loaded: function (layer) {
+            // 模型压平需要使用到
+            window.tileset = layer;
+          },
+        }
       );
     },
   },

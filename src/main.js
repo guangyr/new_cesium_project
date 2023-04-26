@@ -19,6 +19,7 @@ import {
   Divider,
   Checkbox,
   DatePicker,
+  Slider,
 } from 'element-ui';
 import 'element-ui/lib/theme-chalk/index.css';
 import '@/assets/icon/iconfont.css';
@@ -40,6 +41,7 @@ Vue.use(Progress);
 Vue.use(Divider);
 Vue.use(Checkbox);
 Vue.use(DatePicker);
+Vue.use(Slider);
 Vue.config.productionTip = false;
 // 设置允许devtools调试
 Vue.config.devtools = true;

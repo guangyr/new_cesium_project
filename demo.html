@@ -5,21 +5,27 @@
     <meta charset="UTF-8">
     <title>ditu</title>
     <style>
-        #wrap {
-            width: 600px;
-            height: 60px;
-            background: rgb(78, 102, 181);
-            background: linear-gradient(360deg, rgba(78, 102, 181, 0.9557072829131653) 4%, rgba(72, 129, 195, 0.8240546218487395) 47%, rgba(59, 184, 222, 0.5803571428571428) 78%);
-            border-radius: 100px 100px 0 0;
-            transform: perspective(20px) rotateX(6deg) rotateY(0deg) translateZ(0);
+        /* 中圆 */
+        .light-ball {
+            border-radius: 50%;
+            width: 72.574px;
+            height: 72.574px;
+            border: 1px solid #00ecff;
+            box-sizing: border-box;
+            box-shadow: 0 0 1em #41ecff inset, 0 0 0.8em #86ebff;
+            background: radial-gradient(closest-corner, rgba(255, 255, 255, 0) 0%, rgb(218, 221, 255) 100%);
+            /* background-image: url('http://localhost:8021/%E5%AE%9A%E4%BD%8D.svg');
+            background-size: 80%; */
         }
     </style>
 </head>
 
 <body>
-    <div id="wrap">
 
+    <div class="light-ball">
+        <img src='http://localhost:8021/%E5%AE%9A%E4%BD%8D.svg' alt="">
     </div>
+
 </body>
 
 </html>

@@ -1,7 +1,7 @@
 <template>
   <div
     class="position-reset iconfont icon-dingwei"
-    @click="flyToDefaultPositon()"
+    @click="logCurrentCaremaInfo()"
   ></div>
 </template>
 <script>
@@ -21,6 +21,9 @@ export default {
       let pitch = Cesium.Math.toDegrees(viewer.camera.pitch); // 俯仰角
       console.log(
         `经度:${longitude},纬度:${latitude},高度:${height},方向角:${heading},俯仰角:${pitch}`
+      );
+      console.log(
+        `经度:${viewer.camera.positionCartographic.longitude},纬度:${viewer.camera.positionCartographic.latitude},高度:${viewer.camera.positionCartographic.height},方向角:${viewer.camera.positionCartographic.heading},俯仰角:${viewer.camera.positionCartographic.pitch}`
       );
       console.log(`${longitude},${latitude},${height}`, `${heading}  ${pitch}`);
     },

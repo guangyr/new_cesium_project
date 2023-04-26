@@ -6,6 +6,41 @@
   "description": "",
   "glyphs": [
     {
+      "icon_id": "14625268",
+      "name": "监控(离线)",
+      "font_class": "jiankonglixian",
+      "unicode": "e713",
+      "unicode_decimal": 59155
+    },
+    {
+      "icon_id": "14694804",
+      "name": "sutpc-监控-离线 ",
+      "font_class": "sutpc-jiankong-lixian",
+      "unicode": "e651",
+      "unicode_decimal": 58961
+    },
+    {
+      "icon_id": "20632429",
+      "name": "sutpc-监控-离线 ",
+      "font_class": "sutpc-jiankong-lixian1",
+      "unicode": "e604",
+      "unicode_decimal": 58884
+    },
+    {
+      "icon_id": "23785668",
+      "name": "监控离线",
+      "font_class": "jiankonglixian1",
+      "unicode": "e631",
+      "unicode_decimal": 58929
+    },
+    {
+      "icon_id": "33428558",
+      "name": "监控-在线",
+      "font_class": "jiankong-zaixian",
+      "unicode": "e632",
+      "unicode_decimal": 58930
+    },
+    {
       "icon_id": "1104628",
       "name": "设备类_球机gis",
       "font_class": "shebeileiqiujigis",

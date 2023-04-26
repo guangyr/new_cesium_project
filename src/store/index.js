@@ -10,6 +10,7 @@ export default new Vuex.Store({
     current_title: '',
     current_action: '',
   },
+
   getters: {},
   mutations: {
     // 1. 修改菜单开关状态flag
