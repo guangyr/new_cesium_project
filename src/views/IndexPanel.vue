@@ -29,7 +29,7 @@
         <!-- 中间大盒子 -->
         <div class="body-box">
           <div class="content-box">
-            <div>
+            <div class="center-left-box">
               <dv-border-box-13>
                 <centerLeft1 />
               </dv-border-box-13>
@@ -40,7 +40,7 @@
               </dv-border-box-12>
             </div>
 
-            <div>
+            <div class="center-right-box">
               <dv-border-box-13>
                 <centerRight1 />
               </dv-border-box-13>
@@ -80,10 +80,10 @@ export default {
   mounted() {
     // this.timeFn();
     this.cancelLoading();
-    console.log('indexPanel组件:', window.viewer);
+    // console.log('indexPanel组件:', window.viewer);
   },
   beforeDestroy() {
-    clearInterval(this.timing);
+    // clearInterval(this.timing);
   },
   methods: {
     timeFn() {
@@ -105,8 +105,10 @@ export default {
 <style scoped>
 #index {
   color: #d3d6dd;
-  width: 100vw;
-  height: 100vh;
+  /* width: 100vw;
+  height: 100vh; */
+  width: 100%;
+  height: 100%;
 }
 
 #index .bg {
@@ -122,15 +124,6 @@ export default {
   display: flex;
   flex-direction: column;
 }
-#index .host-body .dv-dec-10,
-#index .host-body .dv-dec-10-s {
-  width: 33.3%;
-  height: 5px;
-}
-
-/* #index .host-body .dv-dec-10-s {
-  transform: rotateY(180deg);
-} */
 
 /* 头部装饰盒子 */
 #index .host-body .dv-dec-8 {
@@ -163,15 +156,6 @@ export default {
   transform: translate(-50%);
 }
 
-#index .host-body .body-box {
-  /* display: flex; */
-  /* flex-direction: column; */
-  /* flex-direction: row; */
-  margin-top: 5px;
-  flex: 1;
-  /* justify-content: space-between; */
-}
-
 #index .host-body .body-box .content-box {
   display: flex;
   justify-content: space-between;
@@ -180,80 +164,11 @@ export default {
   flex: 1;
   margin: 0 10px;
 }
-/* #index .host-body .body-box .dv-border-box-12 {
-  height: 100%;
-} */
-
-/* #index .host-body .body-box .bottom-box {
-  margin-top: 10px;
-  display: grid;
-  grid-template-columns: repeat(2, 50%);
-} */
-
-/* #index .host-body .aside-width {
-  width: 40%;
+.center-left-box {
+  height: 735px;
 }
 
-#index .host-body .react-r-s,
-#index .host-body .react-l-s {
-  background-color: #0f1325;
-} */
-
-/* #index .host-body .react-right {
-  font-size: 18px;
-  width: 300px;
-  line-height: 50px;
-  text-align: center;
-  transform: skewX(-45deg);
+.center-right-box {
+  height: 735px;
 }
-
-#index .host-body .react-right.react-l-s {
-  text-align: right;
-  width: 500px;
-}
-
-#index .host-body .react-right .react-after {
-  position: absolute;
-  right: -25px;
-  top: 0;
-  height: 50px;
-  width: 50px;
-  background-color: #0f1325;
-  transform: skewX(45deg);
-}
-
-#index .host-body .react-right .text {
-  display: inline-block;
-  transform: skewX(45deg);
-} */
-
-/* #index .host-body .react-left {
-  font-size: 18px;
-  width: 300px;
-  height: 50px;
-  line-height: 50px;
-  text-align: center;
-  transform: skewX(45deg);
-  background-color: #0f1325;
-} */
-
-/* #index .host-body .react-left.react-l-s {
-  width: 500px;
-  text-align: left;
-} */
-
-/* #index .host-body .react-left .react-left {
-  position: absolute;
-  left: -25px;
-  top: 0;
-  height: 50px;
-  width: 50px;
-  background-color: #0f1325;
-  transform: skewX(-45deg);
-} */
-
-/* #index .host-body .react-left .text {
-  display: inline-block;
-  transform: skewX(-45deg);
-} */
 </style>

@@ -25,30 +25,131 @@ export default {
           icon: 'icon-a-3Dcelianggongju',
           title: '测量工具',
           action: 'measure',
+          child: [
+            {
+              id: 1.1,
+              icon: 'icon-map-ruler',
+              title: '长度测量',
+              action: 'lengthMeasure',
+            },
+            {
+              id: 1.2,
+              icon: 'icon-mianjiceliang1',
+              title: '面积测量',
+              action: 'areaMeasure',
+            },
+            {
+              id: 1.3,
+              icon: 'icon-poduceliang',
+              title: '夹角测量',
+              action: 'azimuthMeasure',
+            },
+          ],
         },
         {
           id: 2,
           icon: 'icon-sanweikeshihua',
           title: '可视化',
           action: 'visualization',
+          child: [
+            {
+              id: 2.1,
+              icon: 'icon-iconic_lizitu',
+              title: '雨雾特效',
+              action: 'addRain',
+            },
+            {
+              id: 2.2,
+              icon: 'icon-jishuijiance',
+              title: '积水监测',
+              action: 'rainArea',
+            },
+            {
+              id: 2.3,
+              icon: 'icon-manyou',
+              title: '园区漫游',
+              action: 'Track',
+            },
+          ],
         },
+        // 暂未配置好3
         {
           id: 3,
           icon: 'icon-fanguang',
           title: '光源效果',
           action: 'lightEffect',
+          child: [
+            {
+              id: 3.1,
+              icon: 'icon-iconic_lizitu',
+              title: '场景光源',
+              action: 'addRain',
+            },
+            {
+              id: 3.2,
+              icon: 'icon-jishuijiance',
+              title: '点光源',
+              action: 'rainArea',
+            },
+            {
+              id: 3.3,
+              icon: 'icon-manyou',
+              title: '泛光特效',
+              action: 'Track',
+            },
+          ],
         },
         {
           id: 4,
           icon: 'icon-moxingfenxi',
           title: '模型分析',
           action: 'modelAnalysis',
+          child: [
+            {
+              id: 4.1,
+              icon: 'icon-bimgis_jiemianfenxi',
+              title: '动态刨切',
+              action: 'cuttingTool',
+            },
+            {
+              id: 4.2,
+              icon: 'icon-moxingyaping',
+              title: '模型压平',
+              action: 'modelFlatten',
+            },
+            {
+              id: 4.3,
+              icon: 'icon-juanlian',
+              title: '模型卷帘',
+              action: 'rollerShutterRegion',
+            },
+          ],
         },
         {
           id: 5,
           icon: 'icon-shouye-moxingfenxi',
           title: '综合分析',
           action: 'generalizedAnalysis',
+          child: [
+            {
+              id: 5.1,
+              icon: 'icon-tongshifenxi',
+              title: '通视分析',
+              action: 'addVisibility',
+            },
+            {
+              id: 5.2,
+              icon: 'icon-keshiyufenxi',
+              title: '可视域分析',
+              action: 'ViewShed',
+            },
+            {
+              id: 5.3,
+              icon: 'icon-jiankongshipin',
+              title: '视频投放',
+              action: 'viewCctv',
+            },
+          ],
         },
       ],
       menuVisibility: true, // 是否显示工具栏. 默认为false. 可选值有:true,false。
@@ -58,7 +159,6 @@ export default {
     shiftPanel(item) {
       if (Object.is(this.$store.state.current_id, NaN)) {
         // 不能直接用 === 判断 nan 的情况，因为 NaN 不等于 任何 类型的整数。
-
         this.$store.commit('ChangePanelStatu');
         this.$store.commit('ChangeCurrentMenu', item);
       } else if (this.$store.state.current_id === item.id) {
@@ -137,6 +237,11 @@ export default {
   margin-top: 2px;
   font-size: 12px;
   color: #f2f2f2;
+  -ms-user-select: none;
+  -khtml-user-select: none;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  user-select: none;
 }
 .tools-menu ul li:hover {
   color: #409eff;

@@ -7,78 +7,11 @@
         <i class="iconfont icon-jiankongshipin" @click="viewCctv()"></i>
       </template>
     </MenuInfoPanel>
-
-    <div class="control-panel-container">
-      <!-- <dv-border-box-13> -->
-      <ControlPanel>
-        <template #title1>
-          <h3>监控信息</h3>
-        </template>
-        <template #content1>
-          <div>
-            <div class="box boxnav-container">
-              <div class="boxnav tabel-container">
-                <table class="table1" cellspacing="0" cellpadding="0">
-                  <tbody>
-                    <tr class="d-flex jc-between">
-                      <th>名称</th>
-                      <th>类型</th>
-                      <th>状态</th>
-                    </tr>
-                    <tr v-for="items in cctvList" class="d-flex jc-between">
-                      <td>
-                        <span class="text-b">{{ items.name }}</span>
-                      </td>
-                      <td
-                        :class="[
-                          'iconfont',
-                          items.type === '球机'
-                            ? 'icon-shebeileiqiujigis'
-                            : 'icon-jiankongshipin',
-                        ]"
-                      ></td>
-                      <td
-                        :class="[
-                          'iconfont',
-                          items.online
-                            ? 'icon-jiankong-zaixian'
-                            : 'icon-jiankonglixian',
-                        ]"
-                      ></td>
-                    </tr>
-                  </tbody>
-                </table>
-              </div>
-            </div>
-          </div>
-        </template>
-        <template #title2>
-          <h3>监控操作</h3>
-        </template>
-        <template #content2>
-          <div>
-            <div class="box">
-              <div class="boxnav">
-                <div class="cctvControl">
-                  <span class="demonstration">上下:</span>
-                  <el-slider v-model="value2"></el-slider>
-                </div>
-                <div class="cctvControl">
-                  <span class="demonstration">左右:</span>
-                  <el-slider v-model="value2"></el-slider>
-                </div>
-              </div>
-            </div>
-          </div>
-        </template>
-      </ControlPanel>
-      <!-- </dv-border-box-13> -->
-    </div>
   </div>
 </template>
 <script>
 import MenuInfoPanel from '../MenuPanel/MenuInfoPanel';
-import ControlPanel from '../MenuPanel/ControlPanel';
+// import ControlPanel from '../MenuPanel/ControlPanel';
 
 let visibility = null;
 let mouseLeftOnceClicked = false; //是否点击了一次鼠标左键
@@ -87,54 +20,15 @@ export default {
   name: 'GeneralizedAnalysisTools',
   components: {
     MenuInfoPanel,
-    ControlPanel,
+    // ControlPanel,
   },
   data() {
-    return {
-      cctvList: [
-        {
-          id: 'c1',
-          name: '东1',
-          type: '球机',
-          online: true,
-          project: false,
-          active: false,
-        },
-        {
-          id: 'c2',
-          name: '东2',
-          type: '枪机',
-          online: true,
-          project: false,
-          active: false,
-        },
-        {
-          id: 'c3',
-          name: '西门',
-          type: '枪机',
-          online: false,
-          project: false,
-          active: false,
-        },
-        {
-          id: 'c4',
-          name: '东门',
-          type: '枪机',
-          online: true,
-          project: false,
-          active: false,
-        },
-        {
-          id: 'c5',
-          name: '东1门',
-          type: '枪机',
-          online: true,
-          project: false,
-          active: false,
-        },
-      ],
-      value2: 10,
-    };
+    return {};
+  },
+  watch: {
+    '$store.state.cctvDegree.upDown': function (newvalue, oldvalue) {
+      console.log(newvalue, oldvalue);
+    },
   },
   methods: {
     addVisibility() {
@@ -225,9 +119,14 @@ export default {
         }
       }, Cesium.ScreenSpaceEventType.LEFT_CLICK);
     },
-
+    // computed: {},
     // 监控
     viewCctv() {
+      viewer.scene.visualAnalysisManager.removeAll();
+      console.log(
+        ' this.$store.state.cctvDegree',
+        this.$store.state.cctvDegree
+      );
       // 观察点
       let targetPosition = new Cesium.Cartesian3(
         -2273141.773190065,
@@ -252,16 +151,15 @@ export default {
       // 将场景投放添加到地球上显示
       viewer.scene.visualAnalysisManager.add(scenePro);
       // 投影内容
-      scenePro.textureSource =
-        'http://localhost:5500/static/modules/cesium/example-gallery/analyse/commonAnalyse/人.mp4';
+      scenePro.textureSource = 'http://localhost:8021/人.mp4';
       // 设置观察点
       scenePro.viewPosition = viewPosition;
       // 设置目标点
       scenePro.targetPosition = targetPosition;
       // 方位角
-      scenePro.heading = 35;
+      scenePro.heading = this.$store.state.cctvDegree.upDown;
       // 俯仰角
-      scenePro.pitch = -69;
+      scenePro.pitch = this.$store.state.cctvDegree.leftRight;
       // 翻滚角
       scenePro.roll = 0;
       // 水平广角
@@ -272,102 +170,4 @@ export default {
   },
 };
 </script>
-<style scoped>
-.control-panel-container {
-  position: relative;
-  top: -290px;
-  left: 570px;
-  width: 300px;
-  height: 350px;
-}
-.box {
-  border: 1px solid rgba(7, 118, 181, 0.5);
-  box-shadow: inset 0 0 10px rgba(7, 118, 181, 0.4);
-  /* margin-bottom: 12px; */
-  position: relative;
-}
-.box:before {
-  width: 100%;
-  height: 1px;
-  content: '';
-  position: absolute;
-  left: 0;
-  bottom: -1px;
-  background: linear-gradient(to right, #076ead, #4ba6e0, #076ead);
-  box-shadow: 0 0 5px rgba(131, 189, 227, 1);
-  opacity: 0.6;
-}
-.box .tabel-container {
-  height: 123px;
-  overflow: auto;
-}
-.box:before {
-  top: -1px;
-}
-.boxnav {
-  padding: 5px 10px 0;
-}
-
-::-webkit-scrollbar {
-  width: 3px;
-}
-::-webkit-scrollbar-thumb {
-  background: #ccc;
-  border-radius: 5px;
-}
-
-.table1 {
-  width: 100%;
-}
-.table1 tr {
-  width: 100%;
-  border-bottom: 1px dotted #407abd;
-}
-.table1 th {
-  font-size: 14px;
-  text-align: center;
-  padding: 2px 3px;
-  color: rgba(255, 255, 255, 0.8);
-}
-.table1 td {
-  /* border-bottom: 1px dotted#407abd; */
-  font-size: 12px;
-  padding: 3px 3px;
-  text-align: center;
-  color: rgba(255, 255, 255, 0.6);
-}
-
-.table1 tr:last-child {
-  border: none;
-}
-.table1 tr:first-child {
-  border-bottom: 1px solid #407abd;
-}
-.table1 tr:hover {
-  background-color: #7b7777;
-}
-.text-w {
-  color: #ffe400;
-}
-.text-d {
-  color: #ff6316;
-}
-.text-s {
-  color: #14e144;
-}
-.text-b {
-  color: #07e5ff;
-}
-.cctvControl {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  font-size: 14px;
-}
-.el-slider {
-  width: 80%;
-}
-.error {
-  color: #ff6316;
-}
-</style>
+<style scoped></style>

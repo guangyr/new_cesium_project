@@ -1,23 +1,17 @@
 <template>
   <div id="centerRight1">
     <div class="bg-color-black">
-      <div class="d-flex pt-2 pl-2">
-        <!-- <span>
-          <icon name="chart-line" class="text-icon"></icon>
-        </span> -->
-        <div class="d-flex">
-          <span class="fs-xl text mx-2">排行榜</span>
-        </div>
-      </div>
-      <div class="d-flex jc-center body-box">
-        <!-- <dv-scroll-board class="dv-scr-board" :config="config" /> -->
-      </div>
+      <AlertInfo></AlertInfo>
+      <EnergyInfo></EnergyInfo>
     </div>
   </div>
 </template>
 
 <script>
+import AlertInfo from '@/components/AlertInfo';
+import EnergyInfo from '@/components/EnergyInfo';
 export default {
+  components: { AlertInfo, EnergyInfo },
   data() {
     return {
       config: {
@@ -53,6 +47,7 @@ export default {
   padding: 16px;
   padding-top: 20px;
   height: 100%;
+  /* height: 600px; */
   width: 300px;
   border-radius: 5px;
 }
@@ -60,15 +55,4 @@ export default {
   height: 100%;
   border-radius: 10px;
 }
-/* #centerRight1 .text {
-  color: #c3cbde;
-}
-#centerRight1 .body-box {
-  border-radius: 10px;
-  overflow: hidden;
-}
-#centerRight1 .body-box .dv-scr-board {
-  width: 270px;
-  height: 340px;
-} */
 </style>

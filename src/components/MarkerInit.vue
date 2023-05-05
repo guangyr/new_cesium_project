@@ -49,7 +49,7 @@ export default {
     },
     addImageBillboard() {
       let billboardGraphic = new Cesium.Graphic({
-        id: 1,
+        name: 1,
         //标绘类型
         type: 'billboard',
         //标绘位置

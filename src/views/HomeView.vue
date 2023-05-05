@@ -29,8 +29,8 @@ export default {
   },
   methods: {
     mounted() {
-      console.log('aaaa');
-      console.log(viewer);
+      // console.log('aaaa');
+      // console.log(viewer);
     },
   },
 };
