@@ -17,7 +17,7 @@
       ></GeneralizedAnalysisTools>
       <LayerShift></LayerShift>
       <PositionReset></PositionReset>
-      <MarkerInit :positions="position" :imgUrl="imgUrl"> </MarkerInit>
+      <MarkerInit> </MarkerInit>
       <div id="juanlian-analysis"></div>
     </div>
   </div>

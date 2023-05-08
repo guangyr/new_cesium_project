@@ -5,18 +5,15 @@
     </template>
     <template #content1>
       <div class="box cctv-videos">
-        <video autoplay loop playbackRate="1.5" muted>
-          <span>sssss</span>
-          <source src="http://localhost:8021/City1.mp4" type="video/mp4" />
-        </video>
-        <video autoplay loop muted>
-          <source src="http://localhost:8021/人.mp4" type="video/mp4" />
-        </video>
-        <video autoplay loop muted>
-          <source src="http://localhost:8021/车流.mp4" type="video/mp4" />
-        </video>
-        <video autoplay loop playbackRate="1.2" muted>
-          <source src="http://localhost:8021/人流量.mp4" type="video/mp4" />
+        <video
+          autoplay
+          loop
+          playbackRate="1.5"
+          muted
+          v-for="cctv in $store.state.cctvList"
+          :key="cctv.id"
+        >
+          <source :src="cctv.url" type="video/mp4" />
         </video>
       </div>
     </template>
@@ -36,7 +33,12 @@
                     <th>类型</th>
                     <th>状态</th>
                   </tr>
-                  <tr v-for="items in cctvList" class="d-flex jc-between">
+                  <tr
+                    v-for="items in $store.state.cctvList"
+                    class="d-flex jc-between"
+                    @click="activeCctv(items.id)"
+                    :class="[items.active ? 'activeTr' : '']"
+                  >
                     <td>
                       <span class="text-b">{{ items.name }}</span>
                     </td>
@@ -99,95 +101,13 @@ import ControlPanel from './MenuPanel/ControlPanel.vue';
 export default {
   name: 'CctvShow',
   components: { ControlPanel },
-  mounted() {},
+  mounted() {
+    this.cctvList = this.$store.state.cctvList;
+    // console.log(this.cctvList);
+  },
   data() {
     return {
-      cctvList: [
-        {
-          id: 1,
-          name: '东1',
-          type: '球机',
-          online: true,
-          pitch: -90,
-          heading: 90,
-          position: {
-            lon: 114.40116999085951,
-            lat: 30.465962561272967,
-            height: 60,
-          },
-          project: false,
-          active: false,
-          url: 'http://localhost:8021/人流量.mp4',
-        },
-        {
-          id: 2,
-          name: '东2',
-          type: '枪机',
-          online: true,
-          pitch: -90,
-          heading: 90,
-          position: {
-            lon: 114.40116999084951,
-            lat: 30.465962561272967,
-            height: 70,
-          },
-          project: false,
-          project: false,
-          active: false,
-          url: 'http://localhost:8021/车流.mp4',
-        },
-        {
-          id: 3,
-          name: '西门',
-          type: '枪机',
-          online: false,
-          pitch: -90,
-          heading: 90,
-          position: {
-            lon: 114.40116999085051,
-            lat: 30.465962561272967,
-            height: 65,
-          },
-          project: false,
-          project: false,
-          active: false,
-          url: 'http://localhost:8021/人.mp4',
-        },
-        {
-          id: 4,
-          name: '东门',
-          type: '枪机',
-          online: true,
-          pitch: -90,
-          heading: 90,
-          position: {
-            lon: 114.40116999085951,
-            lat: 30.465962561242967,
-            height: 75,
-          },
-          project: false,
-          project: false,
-          active: false,
-          url: 'http://localhost:8021/City1.mp4',
-        },
-        {
-          id: 5,
-          name: '东1门',
-          type: '枪机',
-          online: true,
-          pitch: -90,
-          heading: 90,
-          position: {
-            lon: 114.40116999085951,
-            lat: 30.465962561292967,
-            height: 55,
-          },
-          project: false,
-          project: false,
-          active: false,
-          url: 'http://localhost:8021/车流.mp4',
-        },
-      ],
+      cctvList: {},
       cctvDegree: {
         upDown: 90,
         leftRight: -90,
@@ -195,6 +115,9 @@ export default {
     };
   },
   methods: {
+    activeCctv(id) {
+      this.$store.commit('ChangeCctvstatu', id);
+    },
     changeUpDown() {
       this.$store.commit('ChangeCctvupDown', this.cctvDegree.upDown);
     },
@@ -248,6 +171,9 @@ export default {
   width: 100%;
   border-bottom: 1px dotted #407abd;
 }
+.table1 .activeTr {
+  background-color: #909399;
+}
 .table1 th {
   font-size: 14px;
   text-align: center;
@@ -270,6 +196,7 @@ export default {
 }
 .table1 :nth-child(n + 2):hover {
   background-color: #7b7777;
+  cursor: pointer;
 }
 .text-w {
   color: #ffe400;
@@ -301,7 +228,9 @@ h3 {
   flex-wrap: wrap;
   justify-content: center;
   box-sizing: border-box;
-  margin: 4px;
+  margin: 2px;
+  height: 144.8px;
+  overflow: auto;
 }
 .cctv-videos video {
   width: 49%;
@@ -312,5 +241,6 @@ h3 {
 
 .cctv-videos video:hover {
   border: 1px solid #07e5ff;
+  cursor: pointer;
 }
 </style>

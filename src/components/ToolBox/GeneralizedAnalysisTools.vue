@@ -27,6 +27,7 @@ export default {
     return {};
   },
   watch: {
+    // 监听监控俯仰角el-slider变化
     '$store.state.cctvDegree.upDown': function (newvalue, oldvalue) {
       console.log(newvalue, oldvalue);
       scenePro.heading = Number(newvalue);
@@ -34,6 +35,20 @@ export default {
     '$store.state.cctvDegree.leftRight': function (newvalue, oldvalue) {
       console.log(newvalue, oldvalue);
       scenePro.pitch = Number(newvalue);
+    },
+    // 监听监控激活状况变化
+    '$store.state.cctvList': {
+      handler(activeStatute) {
+        activeStatute.forEach((item) => {
+          if (item.active === true) {
+            console.log('监控投影 状态变化');
+            console.log(item);
+            this.viewCctv(item);
+          }
+        });
+      },
+      deep: true,
+      immediate: true,
     },
   },
   methods: {
@@ -125,28 +140,17 @@ export default {
         }
       }, Cesium.ScreenSpaceEventType.LEFT_CLICK);
     },
-    // computed: {},
-    // 监控
-    viewCctv() {
+    viewCctv(item) {
       viewer.scene.visualAnalysisManager.removeAll();
-      // console.log(
-      //   ' this.$store.state.cctvDegree',
-      //   this.$store.state.cctvDegree
-      // );
-      // 观察点
-      // let targetPosition = new Cesium.Cartesian3(
-      //   -2273141.773190065,
-      //   5010775.7843235945,
-      //   3215069.2283928613
-      // );
       let targetPosition = Cesium.Cartesian3.fromDegrees(
-        114.40116999085951,
-        30.465962561272967,
-        60
+        item.position.lon,
+        item.position.lat
+        // item.position.height
       );
       // 目标点计算
       let targetGeo = Cesium.Cartographic.fromCartesian(targetPosition);
-      targetGeo.height = 45;
+      console.log('item', item.position.height);
+      targetGeo.height = item.position.height;
       let viewPosition = Cesium.Cartesian3.fromRadians(
         targetGeo.longitude,
         targetGeo.latitude,
@@ -162,7 +166,7 @@ export default {
       // 将场景投放添加到地球上显示
       viewer.scene.visualAnalysisManager.add(scenePro);
       // 投影内容
-      scenePro.textureSource = 'http://localhost:8021/人.mp4';
+      scenePro.textureSource = item.url;
       // 设置观察点
       scenePro.viewPosition = viewPosition;
       // 设置目标点

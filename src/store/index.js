@@ -19,9 +19,9 @@ export default new Vuex.Store({
         pitch: -90,
         heading: 90,
         position: {
-          lon: 114.40116999085951,
-          lat: 30.465962561272967,
-          height: 60,
+          lon: 114.4008537688433,
+          lat: 30.468181577549643,
+          height: 70,
         },
         project: false,
         active: false,
@@ -32,13 +32,14 @@ export default new Vuex.Store({
         name: '东2',
         type: '枪机',
         online: true,
-        pitch: -90,
-        heading: 90,
+        pitch: -35,
+        heading: 100,
         position: {
-          lon: 114.40116999084951,
-          lat: 30.465962561272967,
-          height: 70,
+          lon: 114.40284260981612,
+          lat: 30.46767055436624,
+          height: 10,
         },
+
         project: false,
         project: false,
         active: false,
@@ -52,9 +53,9 @@ export default new Vuex.Store({
         pitch: -90,
         heading: 90,
         position: {
-          lon: 114.40116999085051,
-          lat: 30.465962561272967,
-          height: 65,
+          lon: 114.4005177619144,
+          lat: 30.46737525747312,
+          height: 120,
         },
         project: false,
         project: false,
@@ -63,15 +64,15 @@ export default new Vuex.Store({
       },
       {
         id: 4,
-        name: '东门',
-        type: '枪机',
+        name: '南门',
+        type: '球机',
         online: true,
         pitch: -90,
         heading: 90,
         position: {
-          lon: 114.40116999085951,
-          lat: 30.465962561242967,
-          height: 75,
+          lon: 114.40119730623559,
+          lat: 30.466038812018024,
+          height: 90,
         },
         project: false,
         project: false,
@@ -80,15 +81,15 @@ export default new Vuex.Store({
       },
       {
         id: 5,
-        name: '东1门',
+        name: '北门',
         type: '枪机',
         online: true,
         pitch: -90,
         heading: 90,
         position: {
-          lon: 114.40116999085951,
-          lat: 30.465962561292967,
-          height: 55,
+          lon: 114.401864894663,
+          lat: 30.467192488237334,
+          height: 90,
         },
         project: false,
         project: false,
@@ -121,6 +122,14 @@ export default new Vuex.Store({
     },
     ChangeCctvleftRight(state, value) {
       state.cctvDegree.leftRight = value;
+    },
+    ChangeCctvstatu(state, value) {
+      state.cctvList.forEach((item) => {
+        if (item.id === value) {
+          item.active = true;
+        }
+      });
+      console.log(state.cctvList);
     },
   },
   actions: {
