@@ -1,13 +1,13 @@
 <template>
-  <div class="menu-info-panel-container">
-    <MenuInfoPanel>
-      <template #content>
-        <i class="iconfont icon-tongshifenxi" @click="addVisibility()"> </i>
-        <i class="iconfont icon-keshiyufenxi" @click=""> </i>
-        <i class="iconfont icon-jiankongshipin" @click="viewCctv()"></i>
-      </template>
-    </MenuInfoPanel>
-  </div>
+  <!-- <div class="menu-info-panel-container"> -->
+  <MenuInfoPanel>
+    <template #content>
+      <i class="iconfont icon-tongshifenxi" @click="addVisibility()"> </i>
+      <i class="iconfont icon-keshiyufenxi" @click=""> </i>
+      <i class="iconfont icon-jiankongshipin" @click="viewCctv()"></i>
+    </template>
+  </MenuInfoPanel>
+  <!-- </div> -->
 </template>
 <script>
 import MenuInfoPanel from '../MenuPanel/MenuInfoPanel';
@@ -16,6 +16,7 @@ import MenuInfoPanel from '../MenuPanel/MenuInfoPanel';
 let visibility = null;
 let mouseLeftOnceClicked = false; //是否点击了一次鼠标左键
 let mouseEventDone = false; //可视域分析的鼠标事件完整结束
+let scenePro = null; // 场景投放
 export default {
   name: 'GeneralizedAnalysisTools',
   components: {
@@ -28,6 +29,11 @@ export default {
   watch: {
     '$store.state.cctvDegree.upDown': function (newvalue, oldvalue) {
       console.log(newvalue, oldvalue);
+      scenePro.heading = Number(newvalue);
+    },
+    '$store.state.cctvDegree.leftRight': function (newvalue, oldvalue) {
+      console.log(newvalue, oldvalue);
+      scenePro.pitch = Number(newvalue);
     },
   },
   methods: {
@@ -123,15 +129,20 @@ export default {
     // 监控
     viewCctv() {
       viewer.scene.visualAnalysisManager.removeAll();
-      console.log(
-        ' this.$store.state.cctvDegree',
-        this.$store.state.cctvDegree
-      );
+      // console.log(
+      //   ' this.$store.state.cctvDegree',
+      //   this.$store.state.cctvDegree
+      // );
       // 观察点
-      let targetPosition = new Cesium.Cartesian3(
-        -2273141.773190065,
-        5010775.7843235945,
-        3215069.2283928613
+      // let targetPosition = new Cesium.Cartesian3(
+      //   -2273141.773190065,
+      //   5010775.7843235945,
+      //   3215069.2283928613
+      // );
+      let targetPosition = Cesium.Cartesian3.fromDegrees(
+        114.40116999085951,
+        30.465962561272967,
+        60
       );
       // 目标点计算
       let targetGeo = Cesium.Cartographic.fromCartesian(targetPosition);
@@ -142,7 +153,7 @@ export default {
         targetGeo.height
       );
       // 新建场景投放对象
-      let scenePro = new Cesium.SceneProjector(
+      scenePro = new Cesium.SceneProjector(
         // 场景投放的内容，颜色: COLOR、图片: IMAGE、MP4视频: VIDEO、HLS视频: HLS
         Cesium.SceneProjectorType.VIDEO
       );

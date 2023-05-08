@@ -5,17 +5,17 @@
     </template>
     <template #content1>
       <div class="box cctv-videos">
-        <video autoplay loop playbackRate="1.5">
+        <video autoplay loop playbackRate="1.5" muted>
           <span>sssss</span>
           <source src="http://localhost:8021/City1.mp4" type="video/mp4" />
         </video>
-        <video autoplay loop>
+        <video autoplay loop muted>
           <source src="http://localhost:8021/人.mp4" type="video/mp4" />
         </video>
-        <video autoplay loop>
+        <video autoplay loop muted>
           <source src="http://localhost:8021/车流.mp4" type="video/mp4" />
         </video>
-        <video autoplay loop playbackRate="1.2">
+        <video autoplay loop playbackRate="1.2" muted>
           <source src="http://localhost:8021/人流量.mp4" type="video/mp4" />
         </video>
       </div>
@@ -104,54 +104,93 @@ export default {
     return {
       cctvList: [
         {
-          id: 'c1',
+          id: 1,
           name: '东1',
           type: '球机',
           online: true,
+          pitch: -90,
+          heading: 90,
+          position: {
+            lon: 114.40116999085951,
+            lat: 30.465962561272967,
+            height: 60,
+          },
           project: false,
           active: false,
-          url: '',
+          url: 'http://localhost:8021/人流量.mp4',
         },
         {
-          id: 'c2',
+          id: 2,
           name: '东2',
           type: '枪机',
           online: true,
+          pitch: -90,
+          heading: 90,
+          position: {
+            lon: 114.40116999084951,
+            lat: 30.465962561272967,
+            height: 70,
+          },
+          project: false,
           project: false,
           active: false,
-          url: '',
+          url: 'http://localhost:8021/车流.mp4',
         },
         {
-          id: 'c3',
+          id: 3,
           name: '西门',
           type: '枪机',
           online: false,
+          pitch: -90,
+          heading: 90,
+          position: {
+            lon: 114.40116999085051,
+            lat: 30.465962561272967,
+            height: 65,
+          },
+          project: false,
           project: false,
           active: false,
-          url: '',
+          url: 'http://localhost:8021/人.mp4',
         },
         {
-          id: 'c4',
+          id: 4,
           name: '东门',
           type: '枪机',
           online: true,
+          pitch: -90,
+          heading: 90,
+          position: {
+            lon: 114.40116999085951,
+            lat: 30.465962561242967,
+            height: 75,
+          },
+          project: false,
           project: false,
           active: false,
-          url: '',
+          url: 'http://localhost:8021/City1.mp4',
         },
         {
-          id: 'c5',
+          id: 5,
           name: '东1门',
           type: '枪机',
           online: true,
+          pitch: -90,
+          heading: 90,
+          position: {
+            lon: 114.40116999085951,
+            lat: 30.465962561292967,
+            height: 55,
+          },
+          project: false,
           project: false,
           active: false,
-          url: '',
+          url: 'http://localhost:8021/车流.mp4',
         },
       ],
       cctvDegree: {
-        upDown: -80,
-        leftRight: 30,
+        upDown: 90,
+        leftRight: -90,
       },
     };
   },

@@ -1,7 +1,7 @@
 <template>
   <div
     class="position-reset iconfont icon-dingwei"
-    @click="logCurrentCaremaInfo()"
+    @click="logClickPosition()"
   ></div>
 </template>
 <script>
@@ -26,6 +26,24 @@ export default {
         `经度:${viewer.camera.positionCartographic.longitude},纬度:${viewer.camera.positionCartographic.latitude},高度:${viewer.camera.positionCartographic.height},方向角:${viewer.camera.positionCartographic.heading},俯仰角:${viewer.camera.positionCartographic.pitch}`
       );
       console.log(`${longitude},${latitude},${height}`, `${heading}  ${pitch}`);
+    },
+    logClickPosition() {
+      // 打印当前点击的点信息
+      var handler = new Cesium.ScreenSpaceEventHandler(viewer.scene.canvas);
+      handler.setInputAction(function (movement) {
+        const position = viewer.scene.camera.pickEllipsoid(
+          movement.position,
+          viewer.scene.globe.ellipsoid
+        );
+        console.log(position);
+        const cartographic = Cesium.Cartographic.fromCartesian(position);
+        console.log(cartographic);
+        const { longitude, latitude, height } = cartographic;
+        const lon = Cesium.Math.toDegrees(longitude);
+        const lat = Cesium.Math.toDegrees(latitude);
+        const _height = Cesium.Math.toDegrees(height);
+        console.log(lon, lat, _height);
+      }, Cesium.ScreenSpaceEventType.LEFT_CLICK);
     },
     flyToDefaultPositon() {
       // 回到默认相机视角

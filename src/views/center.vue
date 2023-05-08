@@ -17,8 +17,8 @@
       ></GeneralizedAnalysisTools>
       <LayerShift></LayerShift>
       <PositionReset></PositionReset>
-      <MarkerInit :position="position" :imgUrl="imgUrl"> </MarkerInit>
-      <!-- <div id="juanlian-analysis"></div> -->
+      <MarkerInit :positions="position" :imgUrl="imgUrl"> </MarkerInit>
+      <div id="juanlian-analysis"></div>
     </div>
   </div>
 </template>
@@ -48,16 +48,16 @@ export default {
   data() {
     return {
       position: {
-        longitude: 114.40126017378023,
-        latidude: 30.466008983758886,
-        height: 61.9967540070942,
+        longitude: 114.40116999085951,
+        latidude: 30.4659625612729,
+        height: 60,
       },
       imgUrl: 'http://localhost:8021/枪机.svg',
     };
   },
   mounted() {
     // console.log('center组件中viewer:', window.viewer);
-    this.pickMarker();
+    // this.pickMarker();
   },
   methods: {
     pickMarker() {
@@ -107,18 +107,20 @@ export default {
   transform: translate(-50%);
 }
 #menu-info-panel {
+  position: absolute;
+  top: 10%;
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
+  margin: 0 0 0 10px;
+  padding: 0px 5px;
+  width: 45px;
+  background-color: rgba(19, 25, 47, 0.6);
+}
+/* .menu-info-panel-container {
   position: absolute;
   left: 15px;
   top: 40%;
-}
-.menu-info-panel-container {
-  position: absolute;
-  left: 15px;
-  top: 40%;
-}
+} */
 .layer-shift {
   position: absolute;
   top: 30px;
@@ -136,6 +138,7 @@ export default {
   height: 92%;
   width: 8px;
   background-color: #f5f5f5;
+  display: none;
 }
 #juanlian-analysis:hover {
   cursor: ew-resize;

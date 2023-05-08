@@ -15,6 +15,7 @@ let primitives = null;
 let drawElement = null;
 let graphicsLayer = null;
 let getGraphic = null;
+let weather = null;
 import MenuInfoPanel from '../MenuPanel/MenuInfoPanel';
 // import { addGraphicLayer, startDrawing } from '../../utils/drawTrackLine.js';
 
@@ -41,11 +42,11 @@ export default {
         rainLength: 0.0, //附加长度，雨丝本身具有一定长度
         factor: 0.1, //混合度[0,1]
       };
-      let weather = new Cesium.WeatherEffect(viewer);
 
       //添加雨的参数
       if (this.isRain) {
         console.log('add rain', this.isRain);
+        weather = new Cesium.WeatherEffect(viewer);
         weather.removeRain();
         weather.addRain(optionsRain);
       } else {

@@ -12,37 +12,26 @@
 import MenuInfoPanel from '../MenuPanel/MenuInfoPanel';
 let polygon = null;
 let drawElement = null;
-// let tileset = null;
 let positions = null;
 export default {
   name: 'ModelAnalysisTools',
   components: { MenuInfoPanel },
+  data() {
+    return {
+      active: false,
+    };
+  },
   methods: {
-    addDrawPolygon(positions) {
-      if (polygon) {
-        viewer.scene.primitives.remove(polygon);
-        polygon = null;
-      }
-      polygon = new Cesium.DrawElement.PolygonPrimitive({
-        positions: positions,
-        material: Cesium.Material.fromType('Color', {
-          color: new Cesium.Color(249 / 255, 177 / 255, 27 / 255, 0.5),
-        }),
-      });
-      viewer.scene.primitives.add(polygon);
-    },
+    // 模型压平
     addDrawElement() {
       if (drawElement === null) {
         drawElement = new Cesium.DrawElement(viewer);
-        console.log(drawElement);
       }
       if (tileset) {
         tileset.removeModelFlatten();
-        removeDrawPolygon();
+        viewer.scene.primitives.remove(polygon);
+        polygon = null;
       }
-      // 移除polygon
-      viewer.scene.primitives.remove(polygon);
-      polygon = null;
       //利用DrawElement接口，获取一个矩形的东西南北坐标
       drawElement.startDrawingPolygon({
         callback: function (result) {
@@ -50,7 +39,8 @@ export default {
           positions = result.positions;
           //为了演示，增加一个绘制区域
           if (polygon) {
-            removeDrawPolygon();
+            viewer.scene.primitives.remove(polygon);
+            polygon = null;
           }
           polygon = new Cesium.DrawElement.PolygonPrimitive({
             positions: positions,
@@ -67,49 +57,70 @@ export default {
         },
       });
     },
+    // 卷帘分析
     rollerShutterRegion() {
       let slider = document.getElementById('juanlian-analysis');
-      let handler = new Cesium.ScreenSpaceEventHandler(slider);
-      window.tileset.rollerShutterRegion = new Cesium.Cartesian4(
-        slider.offsetLeft / slider.parentElement.offsetWidth,
-        0.0,
-        1.0,
-        1.0
-      );
-
-      let moveActive = false;
-      function move(movement) {
-        if (!moveActive) {
-          return;
-        }
-        const relativeOffset = movement.endPosition.x;
-        // 计算比例
-        const splitPosition =
-          (slider.offsetLeft + relativeOffset) /
-          slider.parentElement.offsetWidth;
-        // 设置滑动条位置
-        slider.style.left = `${100.0 * splitPosition}%`;
-        // 修改m3d图层卷帘范围
+      if (!this.active) {
+        this.active = !this.active;
+        // 点击时显示卷帘控件
+        slider.style.display = 'block';
+        let handler = new Cesium.ScreenSpaceEventHandler(slider);
         window.tileset.rollerShutterRegion = new Cesium.Cartesian4(
-          splitPosition,
+          // slider.offsetLeft / slider.parentElement.offsetWidth,
+          0.5,
           0.0,
           1.0,
           1.0
         );
+        // console.log('1.初始位置:', window.tileset.rollerShutterRegion);
+        let moveActive = false;
+        function move(movement) {
+          if (!moveActive) {
+            return;
+          }
+
+          let relativeOffset = movement.endPosition.x;
+
+          // 计算比例
+          const splitPosition =
+            (slider.offsetLeft + relativeOffset) /
+            slider.parentElement.offsetWidth;
+          // 设置滑动条位置
+          slider.style.left = `${100.0 * splitPosition}%`;
+
+          // 修改m3d图层卷帘范围
+          window.tileset.rollerShutterRegion = new Cesium.Cartesian4(
+            splitPosition,
+            0.0,
+            1.0,
+            1.0
+          );
+          // console.log('2.实时位置:', window.tileset.rollerShutterRegion);
+        }
+        // 监听鼠标按下事件，开始拖动滑动条
+        handler.setInputAction(function () {
+          // console.log('mouse down');
+          moveActive = true;
+        }, Cesium.ScreenSpaceEventType.LEFT_DOWN);
+
+        // 监听鼠标移动事件，根据滑动条位置更新卷帘范围
+        handler.setInputAction(move, Cesium.ScreenSpaceEventType.MOUSE_MOVE);
+
+        // 监听鼠标弹起事件，结束拖动滑动条
+        handler.setInputAction(function () {
+          moveActive = false;
+        }, Cesium.ScreenSpaceEventType.LEFT_UP);
+      } else {
+        // 取消分析, 清除卷帘结果
+        this.active = !this.active;
+        // 隐藏卷帘slider
+        slider.style.display = '';
+        // 将slider滑块的位置重新放置中间
+        slider.style.left = '50%';
+        // 将卷帘位置设置为0
+        viewer.scene.imagerySplitPosition = window.tileset.rollerShutterRegion =
+          new Cesium.Cartesian4(0.0, 0.0, 1.0, 1.0);
       }
-      // 监听鼠标按下事件，开始拖动滑动条
-      handler.setInputAction(function () {
-        console.log('mouse down');
-        moveActive = true;
-      }, Cesium.ScreenSpaceEventType.LEFT_DOWN);
-
-      // 监听鼠标移动事件，根据滑动条位置更新卷帘范围
-      handler.setInputAction(move, Cesium.ScreenSpaceEventType.MOUSE_MOVE);
-
-      // 监听鼠标弹起事件，结束拖动滑动条
-      handler.setInputAction(function () {
-        moveActive = false;
-      }, Cesium.ScreenSpaceEventType.LEFT_UP);
     },
   },
 };

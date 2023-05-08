@@ -2,7 +2,7 @@ import axios from 'axios';
 
 // 配置默认项
 const instance = axios.create({
-  baseURL: '',
+  baseURL: 'https://mock.apifox.cn/m1/2681982-0-default',
   timeout: 2000,
 });
 

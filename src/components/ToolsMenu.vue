@@ -243,8 +243,14 @@ export default {
   -moz-user-select: none;
   user-select: none;
 }
-.tools-menu ul li:hover {
-  color: #409eff;
+.tools-menu ul li:hover .iconfont {
+  color: #67c23a;
+  cursor: pointer;
+  box-shadow: 0 0 1em #67c23a inset, 0 0 0.5em #e1f3d8;
+  border: 2px solid #67c23a;
+}
+.tools-menu ul li:hover .title {
+  color: #67c23a;
   cursor: pointer;
 }
 </style>

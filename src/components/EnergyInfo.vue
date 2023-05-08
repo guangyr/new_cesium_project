@@ -6,15 +6,15 @@
     </div>
     <div class="body-box" id="body-box">
       <!-- <dv-scroll-board class="dv-scr-board" :config="config" /> -->
-      <EchartTable></EchartTable>
+      <BaseChart></BaseChart>
     </div>
   </div>
 </template>
 
 <script>
-import EchartTable from './EchartTable'; // 实现动态数据的表格显示，展示动态数据
+import BaseChart from './BaseChart'; // 实现动态数据的表格显示，展示动态数据
 export default {
-  components: { EchartTable },
+  components: { BaseChart },
   name: 'EnergyInfo',
   data() {
     return {};
@@ -61,6 +61,7 @@ h3 {
 .body-box {
   border-radius: 10px;
   /* overflow: hidden; */
+  width: 100%;
   height: 380px;
 }
 .dv-scr-board {
