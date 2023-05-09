@@ -15,19 +15,22 @@ export default {
     return {
       chart: null,
       waterInfo: [],
-      electricInfo: [],
+      electricInfo: [2913.83, 2928.05, 1300.82, 2127.23, 1492.14],
     };
   },
   mounted() {
     this.initChart();
-    getEnergyInfo().then((res) => {
-      res.data.expense.forEach((item, index) => {
-        if (index < 5) {
-          this.electricInfo.push(item.electric);
-          this.waterInfo.push(item.water);
-        }
+    setInterval(() => {
+      this.electricInfo = [];
+      getEnergyInfo().then((res) => {
+        res.data.expense.forEach((item, index) => {
+          if (index < 5) {
+            this.electricInfo.push(item.electric);
+            this.waterInfo.push(item.water);
+          }
+        });
       });
-    });
+    }, 3000);
   },
   methods: {
     initChart() {
@@ -78,10 +81,6 @@ export default {
         },
         series: [
           {
-            data: [2913.83, 2928.05, 1300.82, 2127.23, 1492.14],
-            type: 'line',
-          },
-          {
             name: '',
             type: 'line',
             smooth: true,
@@ -98,16 +97,16 @@ export default {
                   type: 'linear',
                   x: 0,
                   y: 0,
-                  x2: 0,
-                  y2: 1,
+                  x2: 1,
+                  y2: 0,
                   colorStops: [
                     {
                       offset: 0,
-                      color: 'rgba(35,184,210,.2)',
+                      color: '#1c98e8',
                     },
                     {
                       offset: 1,
-                      color: 'rgba(35,184,210,0)',
+                      color: '#28f8de',
                     },
                   ],
                 },
@@ -135,23 +134,31 @@ export default {
                 },
               },
             },
+            data: [2913.83, 2928.05, 1300.82, 2127.23, 1492.14],
+            lineSmooth: true,
           },
         ],
         tooltip: {
           trigger: 'item',
           position: 'top',
+          formatter: '{c} 度',
           backgroundColor: 'rgba(28,152,232,.2)',
           padding: 6,
         },
-        // grid: {
-        //   // left: 90,
-        //   // right: 80,
-        //   bottom: 40,
-        //   top: '20%',
-        // },
+        grid: {
+          left: 45,
+          // right: 80,
+          bottom: 40,
+          top: '20%',
+        },
       });
     },
   },
+  // watch: {
+  //   electricInfo(oldVal, newVal) {
+  //     console.log(newVal);
+  //   },
+  // },
 };
 </script>
 

@@ -4,15 +4,14 @@
       <h3>能耗信息</h3>
       <dv-decoration-2 style="width: 180px; height: 5px" />
     </div>
-    <div class="body-box" id="body-box">
-      <!-- <dv-scroll-board class="dv-scr-board" :config="config" /> -->
+    <div class="base-echart-container">
       <BaseChart></BaseChart>
     </div>
   </div>
 </template>
 
 <script>
-import BaseChart from './BaseChart'; // 实现动态数据的表格显示，展示动态数据
+import BaseChart from './BaseChart';
 export default {
   components: { BaseChart },
   name: 'EnergyInfo',
@@ -58,11 +57,8 @@ h3 {
   font-size: 14px;
   color: #07e5ff;
 }
-.body-box {
-  border-radius: 10px;
-  /* overflow: hidden; */
-  width: 100%;
-  height: 380px;
+.energy-info .base-echart-container {
+  marign-left: 3px;
 }
 .dv-scr-board {
   width: 270px;

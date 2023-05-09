@@ -12,7 +12,7 @@
 
 <script>
 import ControlPanel from './MenuPanel/ControlPanel.vue';
-import { getCarInfo } from '@/request/api.js';
+
 export default {
   name: 'AlertInfo',
   data() {

@@ -13,6 +13,7 @@ import tdTheme from '@/common/echart/theme.json';
 export default {
   data() {
     return {
+      // chart: null,
       options: {},
     };
   },
@@ -95,55 +96,7 @@ export default {
       });
     },
   },
-  watch: {
-    // tips 是会变更的数据，所以进行监听
-    tips: {
-      handler(newData) {
-        this.chart.options = {
-          title: {
-            text: newData * 1 + '%',
-            x: 'center',
-            y: 'center',
-            textStyle: {
-              color: this.colorObj.textStyle,
-              fontSize: 16,
-            },
-          },
-          series: [
-            {
-              type: 'pie',
-              radius: ['75%', '80%'],
-              center: ['50%', '50%'],
-              hoverAnimation: false,
-              color: this.colorObj.series.color,
-              label: {
-                normal: {
-                  show: false,
-                },
-              },
-              data: [
-                {
-                  value: newData,
-                  itemStyle: {
-                    normal: {
-                      color: this.colorObj.series.dataColor.normal,
-                      shadowBlur: 10,
-                      shadowColor: this.colorObj.series.dataColor.shadowColor,
-                    },
-                  },
-                },
-                {
-                  value: 100 - newData,
-                },
-              ],
-            },
-          ],
-        };
-      },
-      immediate: true,
-      deep: true,
-    },
-  },
+  watch: {},
 };
 </script>
 
