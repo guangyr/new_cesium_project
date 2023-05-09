@@ -15,7 +15,6 @@ export default {
   data() {
     return {
       config: {
-        header: ['组件', '分支', '覆盖率'],
         data: [
           ['组件1', 'dev-1', "<span  class='colorGrass'>↑75%</span>"],
           ['组件2', 'dev-2', "<span  class='colorRed'>↓33%</span>"],

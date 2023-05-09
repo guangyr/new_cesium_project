@@ -27,22 +27,58 @@ export default {
       );
       console.log(`${longitude},${latitude},${height}`, `${heading}  ${pitch}`);
     },
+    // logClickPosition() {
+    //   // 打印当前点击的点信息
+    //   var handler = new Cesium.ScreenSpaceEventHandler(viewer.scene.canvas);
+    //   handler.setInputAction(function (movement) {
+    //     const position = viewer.scene.camera.pickEllipsoid(
+    //       movement.position,
+    //       viewer.scene.globe.ellipsoid
+    //     );
+    //     console.log(position);
+    //     const cartographic = Cesium.Cartographic.fromCartesian(position);
+    //     console.log(cartographic);
+    //     const { longitude, latitude, height } = cartographic;
+    //     const lon = Cesium.Math.toDegrees(longitude);
+    //     const lat = Cesium.Math.toDegrees(latitude);
+    //     const _height = Cesium.Math.toDegrees(height);
+    //     console.log(lon, lat, _height);
+    //   }, Cesium.ScreenSpaceEventType.LEFT_CLICK);
+    // },
     logClickPosition() {
-      // 打印当前点击的点信息
-      var handler = new Cesium.ScreenSpaceEventHandler(viewer.scene.canvas);
-      handler.setInputAction(function (movement) {
-        const position = viewer.scene.camera.pickEllipsoid(
-          movement.position,
-          viewer.scene.globe.ellipsoid
-        );
-        console.log(position);
-        const cartographic = Cesium.Cartographic.fromCartesian(position);
-        console.log(cartographic);
-        const { longitude, latitude, height } = cartographic;
-        const lon = Cesium.Math.toDegrees(longitude);
-        const lat = Cesium.Math.toDegrees(latitude);
-        const _height = Cesium.Math.toDegrees(height);
-        console.log(lon, lat, _height);
+      let handlers = new Cesium.ScreenSpaceEventHandler(
+        viewer.scene._imageryLayerCollection
+      );
+      handlers.setInputAction(function (event) {
+        console.log('event: ', event);
+        //获取相机射线
+        const ray = viewer.scene.camera.getPickRay(event.position);
+        //根据射线和场景求出在球面中的笛卡尔坐标
+        let position1 = viewer.scene.globe.pick(ray, viewer.scene);
+        let lon;
+        let lat;
+        let MouseHeight;
+        let cartographic1;
+        //获取该浏览器坐标的顶部数据
+        let feature = viewer.scene.pick(event.position);
+        // console.log(feature);
+        if (feature == undefined && position1) {
+          cartographic1 =
+            Cesium.Ellipsoid.WGS84.cartesianToCartographic(position1);
+          lon = Cesium.Math.toDegrees(cartographic1.longitude);
+          lat = Cesium.Math.toDegrees(cartographic1.latitude);
+          MouseHeight = 0;
+        } else {
+          let cartesian = viewer.scene.pickPosition(event.position);
+          if (Cesium.defined(cartesian)) {
+            //如果对象已定义，将度转为经纬度
+            let cartographic = Cesium.Cartographic.fromCartesian(cartesian);
+            lon = Cesium.Math.toDegrees(cartographic.longitude);
+            lat = Cesium.Math.toDegrees(cartographic.latitude);
+            MouseHeight = cartographic.height; //模型高度
+          }
+        }
+        console.log({ lon, lat, MouseHeight });
       }, Cesium.ScreenSpaceEventType.LEFT_CLICK);
     },
     flyToDefaultPositon() {

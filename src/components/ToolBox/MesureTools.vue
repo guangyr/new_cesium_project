@@ -3,21 +3,28 @@
   <MenuInfoPanel>
     <!-- el-card 功能图标 -->
     <template #content>
-      <i class="iconfont icon-map-ruler" @click="lengthMeasure()"> </i>
-      <i class="iconfont icon-mianjiceliang1" @click="areaMeasure()"> </i>
-      <i class="iconfont icon-poduceliang" @click="azimuth()"></i>
+      <i class="iconfont icon-map-ruler tooltip" @click="lengthMeasure()">
+        <TipTool>长度测量</TipTool>
+      </i>
+      <i class="iconfont icon-mianjiceliang1 tooltip" @click="areaMeasure()">
+        <TipTool>面积测量</TipTool></i
+      >
+      <i class="iconfont icon-poduceliang tooltip" @click="azimuth()">
+        <TipTool>方位角测量</TipTool></i
+      >
     </template>
   </MenuInfoPanel>
 </template>
 <script>
 import MenuInfoPanel from '../MenuPanel/MenuInfoPanel';
 import { measureToolsConfig } from '../../utils/measureToolConfig.js';
+import TipTool from '../MenuPanel/TipTool';
 let measureLengthTool = null;
 let measureAreaTool = null;
 let measureAngulationTool = null;
 export default {
   name: 'MeasureTools',
-  components: { MenuInfoPanel },
+  components: { MenuInfoPanel, TipTool },
   data() {
     return {};
   },
@@ -62,4 +69,9 @@ export default {
 };
 </script>
 
-<style></style>
+<style scoped>
+.tooltip {
+  position: relative;
+  display: inline-block;
+}
+</style>

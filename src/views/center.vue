@@ -46,45 +46,10 @@ export default {
     MarkerInit,
   },
   data() {
-    return {
-      position: {
-        longitude: 114.40116999085951,
-        latidude: 30.4659625612729,
-        height: 60,
-      },
-      imgUrl: 'http://localhost:8021/枪机.svg',
-    };
+    return {};
   },
-  mounted() {
-    // console.log('center组件中viewer:', window.viewer);
-    // this.pickMarker();
-  },
-  methods: {
-    pickMarker() {
-      let handler = new Cesium.ScreenSpaceEventHandler(viewer.scene.canvas);
-      handler.setInputAction(function (event) {
-        // 设置左键点击事件
-        let pick = viewer.scene.pick(event.position); // 获取 pick 拾取对象
-        console.log('pick object:', pick, pick.id);
-        let entity = viewer.entities.getById(pick.id);
-        console.log(entity);
-        // // 判断是否获取到了 pick
-        // // pick.id.billboard.image = '......'; // 修改拾取到的entity的样式
-        if (pick && pick.id) {
-          // console.log(
-          //   'pick object:',
-          //   pick.primitive._height,
-          //   pick.primitive._imageId
-          // );
-          // pick.collection._billboards[0]._height = 128;
-          // pick.collection._billboards[0]._imageId =
-          //   'http://localhost:8021/球机.svg';
-        } else {
-          return;
-        }
-      }, Cesium.ScreenSpaceEventType.LEFT_CLICK);
-    },
-  },
+  mounted() {},
+  methods: {},
 };
 </script>
 

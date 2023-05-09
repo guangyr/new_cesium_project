@@ -3,9 +3,15 @@
   <MenuInfoPanel>
     <!-- el-card 功能图标 -->
     <template #content>
-      <i class="iconfont icon-iconic_lizitu" @click="addRain()"> </i>
-      <i class="iconfont icon-jishuijiance" @click="rainArea()"> </i>
-      <i class="iconfont icon-manyou" @click="drawTrackLine()"></i>
+      <i class="iconfont icon-iconic_lizitu tooltip" @click="addRain()">
+        <TipTool>雨雾效果</TipTool>
+      </i>
+      <i class="iconfont icon-jishuijiance tooltip" @click="rainArea()">
+        <TipTool>积水模拟</TipTool>
+      </i>
+      <i class="iconfont icon-manyou tooltip" @click="drawTrackLine()">
+        <TipTool>路径漫游</TipTool></i
+      >
     </template>
   </MenuInfoPanel>
 </template>
@@ -17,6 +23,7 @@ let graphicsLayer = null;
 let getGraphic = null;
 let weather = null;
 import MenuInfoPanel from '../MenuPanel/MenuInfoPanel';
+import TipTool from '../MenuPanel/TipTool';
 // import { addGraphicLayer, startDrawing } from '../../utils/drawTrackLine.js';
 
 export default {
@@ -28,6 +35,7 @@ export default {
   },
   components: {
     MenuInfoPanel,
+    TipTool,
   },
   mounted() {
     console.log(this.isRain);
@@ -237,3 +245,10 @@ export default {
   },
 };
 </script>
+
+<style scoped>
+.tooltip {
+  position: relative;
+  display: inline-block;
+}
+</style>

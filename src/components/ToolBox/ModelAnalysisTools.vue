@@ -1,21 +1,30 @@
 <template>
   <MenuInfoPanel>
     <template #content>
-      <i class="iconfont icon-bimgis_jiemianfenxi" @click="lengthMeasure()">
+      <i
+        class="iconfont icon-bimgis_jiemianfenxi tooltip"
+        @click="lengthMeasure()"
+      >
+        <TipTool>动态剖切</TipTool>
       </i>
-      <i class="iconfont icon-moxingyaping" @click="addDrawElement()"> </i>
-      <i class="iconfont icon-juanlian" @click="rollerShutterRegion()"></i>
+      <i class="iconfont icon-moxingyaping tooltip" @click="addDrawElement()">
+        <TipTool>模型压平</TipTool>
+      </i>
+      <i class="iconfont icon-juanlian tooltip" @click="rollerShutterRegion()">
+        <TipTool>卷帘分析</TipTool></i
+      >
     </template>
   </MenuInfoPanel>
 </template>
 <script>
 import MenuInfoPanel from '../MenuPanel/MenuInfoPanel';
+import TipTool from '../MenuPanel/TipTool';
 let polygon = null;
 let drawElement = null;
 let positions = null;
 export default {
   name: 'ModelAnalysisTools',
-  components: { MenuInfoPanel },
+  components: { MenuInfoPanel, TipTool },
   data() {
     return {
       active: false,
@@ -125,3 +134,10 @@ export default {
   },
 };
 </script>
+
+<style scoped>
+.tooltip {
+  position: relative;
+  display: inline-block;
+}
+</style>

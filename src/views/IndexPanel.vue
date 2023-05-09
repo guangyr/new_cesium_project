@@ -34,10 +34,13 @@
                 <centerLeft1 />
               </dv-border-box-13>
             </div>
-            <div class="center-map-box">
-              <dv-border-box-12>
-                <center></center>
-              </dv-border-box-12>
+            <div class="center-box">
+              <div class="center-map-box">
+                <dv-border-box-12>
+                  <center></center>
+                </dv-border-box-12>
+              </div>
+              <centerBottom> </centerBottom>
             </div>
 
             <div class="center-right-box">
@@ -58,17 +61,11 @@ import { formatTime } from '../utils/index.js';
 import centerLeft1 from './centerLeft1';
 import centerRight1 from './centerRight1';
 import center from './center';
-
+import centerBottom from './centerBottom';
 export default {
-  mixins: [drawMixin],
   data() {
     return {
-      timing: null,
       loading: true,
-      dateDay: null,
-      dateYear: null,
-      dateWeek: null,
-      weekday: ['周日', '周一', '周二', '周三', '周四', '周五', '周六'],
       decorationColor: ['#568aea', '#000000'],
     };
   },
@@ -76,23 +73,15 @@ export default {
     centerLeft1,
     centerRight1,
     center,
+    centerBottom,
   },
   mounted() {
-    // this.timeFn();
     this.cancelLoading();
-    // console.log('indexPanel组件:', window.viewer);
   },
   beforeDestroy() {
     // clearInterval(this.timing);
   },
   methods: {
-    timeFn() {
-      this.timing = setInterval(() => {
-        this.dateDay = formatTime(new Date(), 'HH: mm: ss');
-        this.dateYear = formatTime(new Date(), 'yyyy-MM-dd');
-        this.dateWeek = this.weekday[new Date().getDay()];
-      }, 1000);
-    },
     cancelLoading() {
       setTimeout(() => {
         this.loading = false;
@@ -167,8 +156,14 @@ export default {
 .center-left-box {
   height: 735px;
 }
-
 .center-right-box {
   height: 735px;
+}
+.center-box {
+  width: 100%;
+  height: 100%;
+}
+.center-map-box {
+  height: 480px;
 }
 </style>

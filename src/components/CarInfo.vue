@@ -15,8 +15,8 @@
             </tr>
             <tr v-for="items in carInfo">
               <td>{{ items.car_id }}</td>
-              <td>{{ items.car_id }}</td>
-              <td>{{ items.car_id }}</td>
+              <td>{{ items.time }}</td>
+              <td>{{ items.category }}</td>
             </tr>
           </tbody>
         </table>
@@ -92,9 +92,12 @@ export default {
     };
   },
   mounted() {
-    getCarInfo().then((res) => {
-      this.carInfo = res.data.data;
-    });
+    setInterval(() => {
+      getCarInfo().then((res) => {
+        this.carInfo = res.data.data;
+      });
+    }, 3000);
+
     this.changeData();
   },
   methods: {

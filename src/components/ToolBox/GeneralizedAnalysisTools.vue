@@ -2,9 +2,15 @@
   <!-- <div class="menu-info-panel-container"> -->
   <MenuInfoPanel>
     <template #content>
-      <i class="iconfont icon-tongshifenxi" @click="addVisibility()"> </i>
-      <i class="iconfont icon-keshiyufenxi" @click=""> </i>
-      <i class="iconfont icon-jiankongshipin" @click="viewCctv()"></i>
+      <i class="iconfont icon-tongshifenxi tooltip" @click="addVisibility()">
+        <TipTool>通视分析</TipTool>
+      </i>
+      <i class="iconfont icon-keshiyufenxi tooltip" @click="addViewShed()">
+        <TipTool>可视域分析</TipTool>
+      </i>
+      <i class="iconfont icon-jiankongshipin tooltip" @click="viewCctv()">
+        <TipTool>监控视频</TipTool>
+      </i>
     </template>
   </MenuInfoPanel>
   <!-- </div> -->
@@ -12,8 +18,10 @@
 <script>
 import MenuInfoPanel from '../MenuPanel/MenuInfoPanel';
 // import ControlPanel from '../MenuPanel/ControlPanel';
-
+import TipTool from '../MenuPanel/TipTool';
 let visibility = null;
+let viewShed3d = null;
+let handler = null;
 let mouseLeftOnceClicked = false; //是否点击了一次鼠标左键
 let mouseEventDone = false; //可视域分析的鼠标事件完整结束
 let scenePro = null; // 场景投放
@@ -21,7 +29,7 @@ export default {
   name: 'GeneralizedAnalysisTools',
   components: {
     MenuInfoPanel,
-    // ControlPanel,
+    TipTool,
   },
   data() {
     return {};
@@ -73,74 +81,91 @@ export default {
         // mouseEventDone = false;
       }
     },
+    //添加一个可视域分析(鼠标点选)
+    addViewShed() {
+      //由于可视域分析接口目前只支持一个展示，因此先删除已有的
+      //如果存在可视域分析，那么通过分析管理类移除
+      if (viewShed3d) {
+        viewer.scene.visualAnalysisManager.remove(viewShed3d);
+        viewShed3d = null;
+      }
+      mouseLeftOnceClicked = false;
+      mouseEventDone = false;
+      //如果有对应的handler,移除对应的Cesium鼠标事件
+      if (handler) {
+        handler.removeInputAction(Cesium.ScreenSpaceEventType.LEFT_CLICK);
+        handler.removeInputAction(Cesium.ScreenSpaceEventType.MOUSE_MOVE);
+      }
+      //构造一个可视域分析
+      viewShed3d = new Cesium.ViewshedAnalysis();
+      //将可视域分析添加到分析管理类中
+      viewer.scene.visualAnalysisManager.add(viewShed3d);
+      //可视域分析，需要关注观察点和目标点的位置。
+      // 这里我们采用鼠标左键标记观察点，鼠标移动和右键标记终止点的方式来展示
+      this.addCesiumScreenSpaceEventHandler();
+      // layer.msg('鼠标左键选取，再次左键结束');
+    },
     //增加Cesium的ScreenSpaceEventHandler中的左键、移动、右键三个鼠标事件。
     addCesiumScreenSpaceEventHandler() {
-      let handler = new Cesium.ScreenSpaceEventHandler(viewer.scene.canvas);
+      // handler = new Cesium.ScreenSpaceEventHandler(viewer.scene.canvas);
       //鼠标左击
-      handler.setInputAction(function (movement) {
-        //如果有可视域分析对象，那么确定其观察点
-        if (visibility !== null && mouseEventDone === false) {
-          //获取当前点击的Cartesian3坐标点
-          let cartesian = viewer.scene.pickPosition(movement.position);
-          console.log('当前点击:', cartesian);
-          //转换成cartographic
-          let cartographic = Cesium.Cartographic.fromCartesian(cartesian);
-          console.log(cartographic);
-          let modelMatrix = Cesium.Transforms.headingPitchRollToFixedFrame(
-            cartesian,
-            new Cesium.HeadingPitchRoll()
-          );
 
-          //--------------------------计算目标点-----------------------------------
-          // 观察点
-          // let viewPoint = cartesian;
-          // 世界坐标转换为投影坐标
-          // let webMercatorProjection = new Cesium.WebMercatorProjection(
-          //   viewer.scene.globe.ellipsoid
-          // );
-          // let viewPointWebMercator = webMercatorProjection.project(
-          //   Cesium.Cartographic.fromCartesian(viewPoint)
-          // );
-          // 计算目标点
-          // let toPoint = new Cesium.Cartesian3(
-          //   viewPointWebMercator.x + 10 * Math.cos(0),
-          //   viewPointWebMercator.y + 10 * Math.sin(0),
-          //   0
-          // );
-          // 投影坐标转世界坐标
-          // toPoint = webMercatorProjection.unproject(toPoint);
-          // toPoint = Cesium.Cartographic.toCartesian(toPoint.clone());
-          // 世界坐标转地理坐标
-          // let n_cartographic = Cesium.Cartographic.fromCartesian(toPoint);
-          // let point = [
-          //   Cesium.Math.toDegrees(n_cartographic.longitude),
-          //   Cesium.Math.toDegrees(n_cartographic.latitude),
-          //   Cesium.Math.toDegrees(n_cartographic.height),
-          // ];
-          //   return point;
-          // console.log('point', point);
-          // ---------------------------------------------------------------
+      //如果有可视域分析对象，那么确定其观察点
+      if (viewShed3d !== null) {
+        //获取当前点击的Cartesian3坐标点
+        // let cartesian = viewer.scene.pickPosition(movement.position);
+        // //转换成cartographic
+        // let cartographic = Cesium.Cartographic.fromCartesian(cartesian);
+        //将height抬高2米，方便展示
+        // if (mouseLeftOnceClicked === false) {
+        //   cartographic.height += 2.0;
+        // }
+        //再反转成Cartesian3坐标
+        // cartesian = Cesium.Cartographic.toCartesian(cartographic);
+        console.log(
+          'this.$store.state.cctvList[0].position',
+          this.$store.state.cctvList[0].position.lon,
+          this.$store.state.cctvList[0].position.lat,
+          this.$store.state.cctvList[0].position.height
+        );
+        viewShed3d.targetPosition = Cesium.Cartesian3.fromDegrees(
+          // this.$store.state.cctvList[0].position.lon,
+          // this.$store.state.cctvList[0].position.lat,
+          // this.$store.state.cctvList[0].position.height
+          114.4008537688433,
+          30.468181577549643,
+          70
+        );
+        // viewShed3d.targetPosition = cartesian;
 
-          //再反转成Cartesian3坐标
-          if (mouseLeftOnceClicked === false) {
-            //如果是观察点，那么加2米方便展示
-            cartographic.height += 2;
-          }
-          cartesian = Cesium.Cartographic.toCartesian(cartographic);
-          if (cartesian !== undefined) {
-            if (mouseLeftOnceClicked) {
-              visibility.targetPosition = cartesian;
-              mouseEventDone = true;
-              mouseLeftOnceClicked = false;
-            } else {
-              visibility.viewPosition = cartesian;
-              mouseLeftOnceClicked = true;
-            }
-          }
-        }
-      }, Cesium.ScreenSpaceEventType.LEFT_CLICK);
+        // if (cartesian !== undefined) {
+        //   if (mouseLeftOnceClicked) {
+        //     viewShed3d.targetPosition = cartesian;
+        //     mouseEventDone = true;
+        //     mouseLeftOnceClicked = false;
+        //   } else {
+        //     viewShed3d.viewPosition = cartesian;
+        //     mouseLeftOnceClicked = true;
+        //   }
+        // }
+      }
+
+      //鼠标移动
+      // handler.setInputAction(function (movement) {
+      //   if (mouseLeftOnceClicked === true && mouseEventDone === false) {
+      //     let cartesian = viewer.scene.pickPosition(movement.endPosition);
+      //     if (cartesian !== undefined) {
+      //       viewShed3d.targetPosition = cartesian;
+      //     }
+      //   }
+      // }, Cesium.ScreenSpaceEventType.MOUSE_MOVE);
     },
     viewCctv(item) {
+      console.log(item);
+      if (item === undefined) {
+        this.$store.commit('ChangeCctvstatu', 1);
+        console.log(item);
+      }
       viewer.scene.visualAnalysisManager.removeAll();
       let targetPosition = Cesium.Cartesian3.fromDegrees(
         item.position.lon,
@@ -185,4 +210,9 @@ export default {
   },
 };
 </script>
-<style scoped></style>
+<style scoped>
+.tooltip {
+  position: relative;
+  display: inline-block;
+}
+</style>

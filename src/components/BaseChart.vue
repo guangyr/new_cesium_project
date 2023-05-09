@@ -45,7 +45,7 @@ export default {
             color: 'rgba(255,255,255,.8)',
             fontSize: 12,
           },
-          data: ['4.1', '4.2', '4.3', '4.4', '4.5'],
+          data: ['4/1', '4/2', '4/3', '4/4', '4/5'],
         },
         yAxis: {
           name: '用电量',
@@ -143,26 +143,12 @@ export default {
           backgroundColor: 'rgba(28,152,232,.2)',
           padding: 6,
         },
-        // 图例
-        legend: {
-          top: 120,
-          left: 80,
-          orient: 'vertical',
-          itemGap: 15,
-          itemWidth: 12,
-          itemHeight: 12,
-          data: ['用电量', '我的指标'],
-          textStyle: {
-            color: '#f3f3f3',
-            fontSize: 14,
-          },
-        },
-        grid: {
-          // left: 90,
-          // right: 80,
-          bottom: 40,
-          top: '20%',
-        },
+        // grid: {
+        //   // left: 90,
+        //   // right: 80,
+        //   bottom: 40,
+        //   top: '20%',
+        // },
       });
     },
   },
