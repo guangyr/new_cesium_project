@@ -21,6 +21,7 @@ let drawElement = null;
 let positions = null;
 let cutTool = null;
 let layerList = [];
+let cuttingLayer = null;
 export default {
   name: 'ModelAnalysisTools',
   components: { MenuInfoPanel, TipTool },
@@ -28,6 +29,11 @@ export default {
     return {
       active: false,
     };
+  },
+  beforeDestroy() {
+    viewer.scene.primitives.remove(polygon);
+    tileset.removeModelFlatten();
+    // viewer.scene.globe.depthTestAgainstTerrain = true;
   },
   methods: {
     // 动态刨切
@@ -56,10 +62,10 @@ export default {
     },
     // 添加刨切模型
     addModels() {
-      viewer.scene.layers.removeAllLayers();
+      // viewer.scene.layers.removeAllLayers();
       let url =
         'http://webclient.smaryun.com:8200/3DData/ModelCache/M3D//1.0/钻孔分层点_Sur_000_Ent/钻孔分层点_Sur_000_Ent.mcj';
-      viewer.scene.layers.appendM3DLayer(url, {
+      cuttingLayer = viewer.scene.layers.appendM3DLayer(url, {
         duration: 0,
         maximumScreenSpaceError: 16,
         loaded: function (layer) {
@@ -198,10 +204,25 @@ export default {
     },
     // 切换功能时切换模型
     changeModel() {
-      viewer.scene.layers.removeAllLayers();
-      viewer.scene.layers.appendM3DLayer(
-        'http://webclient.smaryun.com:8200/3DData/ModelCache/M3D//1.0/ZondyFaceModels/ZondyFaceModels.mcj'
-      );
+      // viewer.scene.layers.removeAllLayers();
+      viewer.scene.globe.depthTestAgainstTerrain = true;
+      // viewer.scene.layers.appendM3DLayer(
+      //   'http://webclient.smaryun.com:8200/3DData/ModelCache/M3D//1.0/ZondyFaceModels/ZondyFaceModels.mcj'
+      // );
+
+      // 回到默认相机视角
+      viewer.camera.flyTo({
+        destination: new Cesium.Cartesian3.fromDegrees(
+          114.40407071516431,
+          30.464447653829566,
+          103.35218625745591
+        ),
+        orientation: {
+          heading: Cesium.Math.toRadians(317.3107228765656), // 方向角
+          pitch: Cesium.Math.toRadians(-8.116118823135237), // 俯仰角
+          roll: Cesium.Math.toRadians(0.0), // 翻滚角
+        },
+      });
     },
   },
 };

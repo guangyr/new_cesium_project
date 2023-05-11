@@ -60,6 +60,7 @@ export default {
             // 模型压平需要使用到
             window.tileset = layer;
           },
+          debugShowBoundingVolume: true,
         }
       );
       // let url =
