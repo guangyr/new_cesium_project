@@ -149,6 +149,12 @@ export default {
               title: '视频投放',
               action: 'viewCctv',
             },
+            {
+              id: 5.4,
+              icon: 'icon-jiankongshipin',
+              title: '盲区分析',
+              action: 'blindAreaAnalysis',
+            },
           ],
         },
       ],
@@ -162,12 +168,12 @@ export default {
         this.$store.commit('ChangePanelStatu');
         this.$store.commit('ChangeCurrentMenu', item);
       } else if (this.$store.state.current_id === item.id) {
-        console.log('重复点击,关闭');
+        // console.log('重复点击,关闭');
         // 重复点击一个菜单项, 关闭选项, 清空参数, 下次再打开该菜单项走 第一个逻辑
         this.$store.commit('ChangePanelStatu');
         this.$store.commit('ResetMenuStatu', item);
       } else {
-        console.log('A3');
+        // console.log('A3');
         // 不关闭选项, 直接切换菜单项
         this.$store.commit('ChangeCurrentMenu', item);
       }

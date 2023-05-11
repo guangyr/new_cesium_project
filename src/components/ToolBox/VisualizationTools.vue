@@ -22,6 +22,7 @@ let drawElement = null;
 let graphicsLayer = null;
 let getGraphic = null;
 let weather = null;
+let animation = null;
 import MenuInfoPanel from '../MenuPanel/MenuInfoPanel';
 import TipTool from '../MenuPanel/TipTool';
 // import { addGraphicLayer, startDrawing } from '../../utils/drawTrackLine.js';
@@ -59,12 +60,13 @@ export default {
         weather.addRain(optionsRain);
       } else {
         weather.removeRain();
-        console.log('关闭下雨', this.isRain);
+        // console.log('关闭下雨', this.isRain);
       }
     },
     //绘制积雨区域
     rainArea() {
-      console.log('积雨');
+      this.toggleOtherFunction('rainArea');
+      // console.log('积雨');
       //启用场景的光源
       viewer.scene.globe.enableLighting = true;
       // 设置太阳时间
@@ -127,11 +129,12 @@ export default {
     },
     // 鼠标绘制漫游轨迹
     drawTrackLine() {
+      // this.toggleOtherFunction('drawTrackLine');
       // 创建一个线的绘制图层
       graphicsLayer = new Cesium.GraphicsLayer(viewer, {
         getGraphic: this.getGraphic,
       });
-      // 在图层上绘制
+      // 在图层上绘制e
       graphicsLayer.startDrawing({
         type: 'polyline',
         style: {
@@ -141,8 +144,8 @@ export default {
       });
     },
     getGraphic(e) {
-      console.log('e:', e._positions);
-      // 添加动态圆特效实体，详见Entity文档
+      // console.log('e:', e._positions);
+      // 添加动态圆特效实体，
       let circleWave = viewer.entities.add({
         name: 'dynamic Circle',
         ellipse: {
@@ -160,11 +163,11 @@ export default {
       });
 
       // 定义动画漫游对象
-      let animation = new Cesium.AnimationTool(viewer, {
+      animation = new Cesium.AnimationTool(viewer, {
         // 漫游的方向角
-        heading: 0,
+        heading: Cesium.Math.toRadians(0),
         // 漫游的俯仰角
-        pitch: 0,
+        pitch: Cesium.Math.toRadians(0),
         // 设置漫游的视角类型。0：正常，不移动相机；1：跟随；2：锁定第一视角；3：上帝视角
         animationType: 1,
         // 是否循环漫游动画
@@ -240,8 +243,20 @@ export default {
       // 开启动画漫游
       animation.start();
     },
-    // 开始漫游
-    AnimationTool() {},
+
+    // 切换功能时清除其他功能的效果
+    toggleOtherFunction(fn) {
+      if (fn === 'rainArea') {
+        // graphicsLayer = null;
+        // removeCircle();
+        // animation.stop();
+      } else if (fn === 'drawTrackLine') {
+        if (drawElement) {
+          drawElement.stopDrawing();
+        }
+        this.clearRainArea();
+      }
+    },
   },
 };
 </script>

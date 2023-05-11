@@ -63,8 +63,8 @@ export default {
         }
       );
       // let url =
-      //   'http://webclient.smaryun.com:8089/igs/rest/services/M3Dv 2/zondyOSGB/M3dServer';
-      // 'http://localhost:8089/igs/rest/services/Data/M3dServer';
+      //   'http://webclient.smaryun.com:8089/igs/rest/services/M3Dv2/zondyOSGB/M3dServer';
+
       // viewer.scene.layers.appendM3DLayer(url, {
       //   // 是否显示3d tileset模型
       //   show: true,

@@ -9,6 +9,8 @@
       <VisualizationTools
         v-if="$store.state.current_action === 'visualization'"
       ></VisualizationTools>
+      <LightEffectsTools v-if="$store.state.current_action === 'lightEffect'">
+      </LightEffectsTools>
       <ModelAnalysisTools
         v-if="$store.state.current_action === 'modelAnalysis'"
       ></ModelAnalysisTools>
@@ -30,7 +32,8 @@ import LayerShift from '@/components/LayerShift';
 import PositionReset from '@/components/PositionReset';
 import MeasureTools from '@/components/ToolBox/MesureTools';
 import VisualizationTools from '@/components/ToolBox/VisualizationTools';
-import ModelAnalysisTools from '@/components/ToolBox/ModelAnalysisTools.vue';
+import ModelAnalysisTools from '@/components/ToolBox/ModelAnalysisTools';
+import LightEffectsTools from '@/components/ToolBox/LightEffectsTools';
 import GeneralizedAnalysisTools from '@/components/ToolBox/GeneralizedAnalysisTools';
 import MarkerInit from '@/components/MarkerInit';
 export default {
@@ -41,6 +44,7 @@ export default {
     LayerShift,
     PositionReset,
     VisualizationTools,
+    LightEffectsTools,
     ModelAnalysisTools,
     GeneralizedAnalysisTools,
     MarkerInit,

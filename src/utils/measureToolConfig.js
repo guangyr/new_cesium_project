@@ -45,29 +45,32 @@ function measureToolsConfig(measureType) {
     };
   } else if (measureType === 'area') {
     options = {
-      font: '13pt 微软雅黑',
+      font: '13pt 楷体',
+      fillColor: new Cesium.Color(1.0, 0.0, 0.0, 1.0),
+      outlineColor: new Cesium.Color(1.0, 1.0, 0.0, 0.5),
+      outlineWidth: 4.0,
       verticalOrigin: Cesium.VerticalOrigin.BOTTOM,
-      showBackground: false,
-      // backgroundColor: new Cesium.Color(0, 0.6, 0.1, 0.4),
+      showBackground: true,
+      backgroundColor: new Cesium.Color(0, 0.6, 0.1, 0.4),
       pixelOffset: new Cesium.Cartesian2(0, -4),
-      //地形贴地长度测量
       isTerrain: true,
-      paneNum: 32,
-      showMoreInfo: true,
-      // 量测结果单位，可选"meters" | "kilometers"
-      unit: 'meters',
-      pointStyle: {
-        color: Cesium.Color.RED,
-      },
+      classificationType: 2,
       lineStyle: {
         material: new Cesium.PolylineGlowMaterialProperty({
           glowPower: 0.15,
-          color: Cesium.Color.fromCssColorString('#568aea'),
+          color: Cesium.Color.RED,
         }),
         depthFailMaterial: new Cesium.PolylineGlowMaterialProperty({
-          glowPower: 0.1,
-          color: Cesium.Color.fromCssColorString('#00c2ff'),
+          glowPower: 0.15,
+          color: Cesium.Color.RED,
         }),
+      },
+      //是否连续绘制，true：是，false：否
+      isContinueDraw: false,
+      // 回调函数，返回量测结果
+      callBack: function (result, positions) {
+        console.log('计算结果：', result);
+        console.log('位置点：', positions);
       },
       //测量完毕后提示框的回调函数，可以覆盖提示内容
       labelCallBack: function (result, label) {

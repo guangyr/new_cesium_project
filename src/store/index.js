@@ -67,8 +67,8 @@ export default new Vuex.Store({
         name: '南门',
         type: '球机',
         online: true,
-        pitch: -68,
-        heading: 100,
+        pitch: -48,
+        heading: 99,
         position: {
           lon: 114.401263034971,
           lat: 30.466175335405,

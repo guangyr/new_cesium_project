@@ -1,7 +1,7 @@
 <template>
   <div
     class="position-reset iconfont icon-dingwei"
-    @click="logClickPosition()"
+    @click="flyToDefaultPositon()"
   ></div>
 </template>
 <script>
@@ -91,7 +91,7 @@ export default {
         ),
         orientation: {
           heading: Cesium.Math.toRadians(317.3107228765656), // 方向角
-          pitch: Cesium.Math.toRadians(-11.116118823135237), // 俯仰角
+          pitch: Cesium.Math.toRadians(-8.116118823135237), // 俯仰角
           roll: Cesium.Math.toRadians(0.0), // 翻滚角
         },
       });

@@ -71,7 +71,7 @@ export default {
     },
   },
   mounted() {
-    this.shiftVecLayer();
+    this.shiftSatelliteLayer();
   },
 };
 </script>

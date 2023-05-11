@@ -11,6 +11,9 @@
       <i class="iconfont icon-jiankongshipin tooltip" @click="viewCctv()">
         <TipTool>监控视频</TipTool>
       </i>
+      <i class="iconfont icon-juanlian tooltip" @click="blindAreaAnaly()">
+        <TipTool>监控盲区分析</TipTool></i
+      >
     </template>
   </MenuInfoPanel>
   <!-- </div> -->
@@ -19,6 +22,7 @@
 import MenuInfoPanel from '../MenuPanel/MenuInfoPanel';
 // import ControlPanel from '../MenuPanel/ControlPanel';
 import TipTool from '../MenuPanel/TipTool';
+import axios from 'axios';
 let visibility = null;
 let viewShed3d = null;
 let handler = null;
@@ -32,16 +36,16 @@ export default {
     TipTool,
   },
   data() {
-    return {};
+    return { analysisResultLayer: null };
   },
   watch: {
     // 监听监控俯仰角el-slider变化
     '$store.state.cctvDegree.upDown': function (newvalue, oldvalue) {
-      console.log(newvalue, oldvalue);
+      // console.log(newvalue, oldvalue);
       scenePro.heading = Number(newvalue);
     },
     '$store.state.cctvDegree.leftRight': function (newvalue, oldvalue) {
-      console.log(newvalue, oldvalue);
+      // console.log(newvalue, oldvalue);
       scenePro.pitch = Number(newvalue);
     },
     // 监听监控激活状况变化
@@ -49,8 +53,8 @@ export default {
       handler(activeStatute) {
         activeStatute.forEach((item) => {
           if (item.active === true) {
-            console.log('监控投影 状态变化');
-            console.log(item);
+            // console.log('监控投影 状态变化');
+            // console.log(item);
             this.viewCctv(item);
           }
         });
@@ -61,25 +65,17 @@ export default {
   },
   methods: {
     addVisibility() {
+      viewer.scene.globe.depthTestAgainstTerrain = false;
       if (visibility === null) {
         //构造一个通视分析
         visibility = new Cesium.VisiblityAnalysis({ scene: viewer.scene });
-        console.log('通视分析', visibility);
         //将通视分析添加到分析管理类中
         viewer.scene.visualAnalysisManager.add(visibility);
-        mouseLeftOnceClicked = false;
-        mouseEventDone = false;
-        //可视域分析，需要关注观察点和目标点的位置。
-        //   layer.msg('鼠标左键选取，再次左键结束');
-        console.log('let us start');
-        this.addCesiumScreenSpaceEventHandler();
-      } else {
-        viewer.scene.visualAnalysisManager.remove(visibility);
-        visibility.destroy();
-        visibility = null;
-        // mouseLeftOnceClicked = false;
-        // mouseEventDone = false;
       }
+      mouseLeftOnceClicked = false;
+      mouseEventDone = false;
+      //可视域分析，需要关注观察点和目标点的位置。
+      // layer.msg('鼠标左键选取，再次左键结束');
     },
     //添加一个可视域分析(鼠标点选)
     addViewShed() {
@@ -103,7 +99,6 @@ export default {
       //可视域分析，需要关注观察点和目标点的位置。
       // 这里我们采用鼠标左键标记观察点，鼠标移动和右键标记终止点的方式来展示
       this.addCesiumScreenSpaceEventHandler();
-      // layer.msg('鼠标左键选取，再次左键结束');
     },
     //增加Cesium的ScreenSpaceEventHandler中的左键、移动、右键三个鼠标事件。
     addCesiumScreenSpaceEventHandler() {
@@ -112,42 +107,43 @@ export default {
 
       //如果有可视域分析对象，那么确定其观察点
       if (viewShed3d !== null) {
-        //获取当前点击的Cartesian3坐标点
-        // let cartesian = viewer.scene.pickPosition(movement.position);
-        // //转换成cartographic
-        // let cartographic = Cesium.Cartographic.fromCartesian(cartesian);
-        //将height抬高2米，方便展示
-        // if (mouseLeftOnceClicked === false) {
-        //   cartographic.height += 2.0;
-        // }
-        //再反转成Cartesian3坐标
-        // cartesian = Cesium.Cartographic.toCartesian(cartographic);
-        console.log(
-          'this.$store.state.cctvList[0].position',
-          this.$store.state.cctvList[0].position.lon,
-          this.$store.state.cctvList[0].position.lat,
-          this.$store.state.cctvList[0].position.height
-        );
-        viewShed3d.targetPosition = Cesium.Cartesian3.fromDegrees(
-          // this.$store.state.cctvList[0].position.lon,
-          // this.$store.state.cctvList[0].position.lat,
-          // this.$store.state.cctvList[0].position.height
-          114.4008537688433,
-          30.468181577549643,
-          70
-        );
-        // viewShed3d.targetPosition = cartesian;
+        handler = new Cesium.ScreenSpaceEventHandler(viewer.scene.canvas);
+        //鼠标左击
+        handler.setInputAction(function (movement) {
+          //如果有可视域分析对象，那么确定其观察点
+          if (viewShed3d !== null && mouseEventDone === false) {
+            //获取当前点击的Cartesian3坐标点
+            let cartesian = viewer.scene.pickPosition(movement.position);
+            //转换成cartographic
+            let cartographic = Cesium.Cartographic.fromCartesian(cartesian);
+            //将height抬高2米，方便展示
+            if (mouseLeftOnceClicked === false) {
+              cartographic.height += 2.0;
+            }
+            //再反转成Cartesian3坐标
+            cartesian = Cesium.Cartographic.toCartesian(cartographic);
+            if (cartesian !== undefined) {
+              if (mouseLeftOnceClicked) {
+                viewShed3d.targetPosition = cartesian;
+                mouseEventDone = true;
+                mouseLeftOnceClicked = false;
+              } else {
+                viewShed3d.viewPosition = cartesian;
+                mouseLeftOnceClicked = true;
+              }
+            }
+          }
+        }, Cesium.ScreenSpaceEventType.LEFT_CLICK);
 
-        // if (cartesian !== undefined) {
-        //   if (mouseLeftOnceClicked) {
-        //     viewShed3d.targetPosition = cartesian;
-        //     mouseEventDone = true;
-        //     mouseLeftOnceClicked = false;
-        //   } else {
-        //     viewShed3d.viewPosition = cartesian;
-        //     mouseLeftOnceClicked = true;
-        //   }
-        // }
+        //鼠标移动
+        handler.setInputAction(function (movement) {
+          if (mouseLeftOnceClicked === true && mouseEventDone === false) {
+            let cartesian = viewer.scene.pickPosition(movement.endPosition);
+            if (cartesian !== undefined) {
+              viewShed3d.targetPosition = cartesian;
+            }
+          }
+        }, Cesium.ScreenSpaceEventType.MOUSE_MOVE);
       }
 
       //鼠标移动
@@ -206,6 +202,34 @@ export default {
       scenePro.horizontAngle = 45;
       // 竖直广角
       scenePro.verticalAngle = 45;
+    },
+    // 监控盲区分析
+    blindAreaAnaly() {
+      axios
+        .get(
+          'http://localhost:8089/igs/rest/services/igs-demo-plugin/ExtensionServer/demo?path=gdbp://MapGisLocal/CesiumDemo/sfcls/监控点位&path1=gdbp://MapGisLocal/CesiumDemo/sfcls/园区范围'
+        )
+        .then((res) => {
+          console.log(res.data);
+          this.analysisResultLayer = res.data;
+          this.addAnalysisResult(this.analysisResultLayer);
+        });
+    },
+    addAnalysisResult(url) {
+      viewer.scene.layers.removeAllLayers();
+      const options = {
+        //服务基地址
+        url: 'http://localhost:8089/igs/rest/mrms/layers',
+        //gdbps地址数组
+        gdbps: [this.analysisResultLayer],
+      };
+      options.tilingScheme = new Cesium.WebMercatorTilingScheme({
+        numberOfLevelZeroTilesX: 2,
+        numberOfLevelZeroTilesY: 2,
+      });
+      viewer.imageryLayers.addImageryProvider(
+        new Cesium.MapGISMapServerImageryProvider(options)
+      );
     },
   },
 };

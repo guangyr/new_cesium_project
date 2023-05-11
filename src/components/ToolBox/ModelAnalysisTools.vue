@@ -1,10 +1,7 @@
 <template>
   <MenuInfoPanel>
     <template #content>
-      <i
-        class="iconfont icon-bimgis_jiemianfenxi tooltip"
-        @click="lengthMeasure()"
-      >
+      <i class="iconfont icon-bimgis_jiemianfenxi tooltip" @click="cutting()">
         <TipTool>动态剖切</TipTool>
       </i>
       <i class="iconfont icon-moxingyaping tooltip" @click="addDrawElement()">
@@ -22,6 +19,8 @@ import TipTool from '../MenuPanel/TipTool';
 let polygon = null;
 let drawElement = null;
 let positions = null;
+let cutTool = null;
+let layerList = [];
 export default {
   name: 'ModelAnalysisTools',
   components: { MenuInfoPanel, TipTool },
@@ -31,8 +30,73 @@ export default {
     };
   },
   methods: {
+    // 动态刨切
+    cutting() {
+      this.addModels(), this.addCuttingTool();
+      viewer.scene.globe.depthTestAgainstTerrain = false;
+    },
+    addCuttingPlane() {
+      //移除之前的切面
+      // removeCuttingPlane();
+      //简单切面时，展示控制条
+      cutTool.createModelCuttingPlane(new Cesium.Cartesian3(1.0, 0.0, 0.0), {
+        //裁剪面的初始距离
+        distance: 0,
+        //辅助面宽度缩放比例
+        scaleWidth: 2.5,
+        //辅助面高度缩放比例
+        scaleHeight: 2.5,
+        //裁剪方向，false：原方向，true：反向
+        unionClippingRegions: false,
+        //配置辅助面的颜色，以及透明度
+        color: new Cesium.Color(1, 1, 1, 0.2),
+        //是否显示辅助面
+        showCuttingPlane: true,
+      });
+    },
+    // 添加刨切模型
+    addModels() {
+      viewer.scene.layers.removeAllLayers();
+      let url =
+        'http://webclient.smaryun.com:8200/3DData/ModelCache/M3D//1.0/钻孔分层点_Sur_000_Ent/钻孔分层点_Sur_000_Ent.mcj';
+      viewer.scene.layers.appendM3DLayer(url, {
+        duration: 0,
+        maximumScreenSpaceError: 16,
+        loaded: function (layer) {
+          layerList.push(layer);
+        },
+      });
+      let url2 =
+        'http://webclient.smaryun.com:8200/3DData/ModelCache/M3D//1.0/钻孔_2_钻孔模型s/钻孔_2_钻孔模型s.mcj';
+      viewer.scene.layers.appendM3DLayer(url2, {
+        duration: 0,
+        maximumScreenSpaceError: 16,
+        loaded: function (layer) {
+          layerList.push(layer);
+        },
+      });
+    },
+    // 添加剖切工具
+    addCuttingTool() {
+      if (layerList.length === 2) {
+        //代表模型都添加完了
+        cutTool = new Cesium.CuttingTool(viewer, layerList, {
+          onErrorCallback: function (type, msg) {
+            console.log('错误信息：' + type + ':' + msg);
+          },
+        });
+        this.addCuttingPlane();
+        drawElement = new Cesium.DrawElement(viewer);
+      } else {
+        //如果没有添加完，那么继续等待
+        setTimeout(() => {
+          this.addCuttingTool();
+        }, 500);
+      }
+    },
     // 模型压平
     addDrawElement() {
+      this.changeModel();
       if (drawElement === null) {
         drawElement = new Cesium.DrawElement(viewer);
       }
@@ -68,6 +132,7 @@ export default {
     },
     // 卷帘分析
     rollerShutterRegion() {
+      this.changeModel();
       let slider = document.getElementById('juanlian-analysis');
       if (!this.active) {
         this.active = !this.active;
@@ -130,6 +195,13 @@ export default {
         viewer.scene.imagerySplitPosition = window.tileset.rollerShutterRegion =
           new Cesium.Cartesian4(0.0, 0.0, 1.0, 1.0);
       }
+    },
+    // 切换功能时切换模型
+    changeModel() {
+      viewer.scene.layers.removeAllLayers();
+      viewer.scene.layers.appendM3DLayer(
+        'http://webclient.smaryun.com:8200/3DData/ModelCache/M3D//1.0/ZondyFaceModels/ZondyFaceModels.mcj'
+      );
     },
   },
 };
