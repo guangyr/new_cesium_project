@@ -145,13 +145,6 @@ export default {
 </script>
 
 <style>
-/* .globel-container {
-  background-color: rgba(0, 0, 0, 0);
-} */
-/*
-.cesium-viewer-cesiumWidgetContainer {
-  height: 100vh;
-} */
 #globel-container .cesium-widget-credits {
   display: none !important;
   visibility: hide !important;

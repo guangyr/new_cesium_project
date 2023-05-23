@@ -56,8 +56,6 @@
 </template>
 
 <script>
-import drawMixin from '../utils/drawMixin';
-import { formatTime } from '../utils/index.js';
 import centerLeft1 from './centerLeft1';
 import centerRight1 from './centerRight1';
 import center from './center';
