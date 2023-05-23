@@ -6,63 +6,66 @@ function measureToolsConfig(measureType) {
   let options;
   if (measureType === 'length') {
     options = {
-      font: '13pt 微软雅黑',
+      font: '1pt 微软雅黑',
+      fillColor: Cesium.Color.fromCssColorString('#FFFFFF'),
       verticalOrigin: Cesium.VerticalOrigin.BOTTOM,
+      enableScaleByDistance: true,
       showBackground: false,
-      // backgroundColor: new Cesium.Color(0, 0.6, 0.1, 0.4),
+      // backgroundColor: new Cesium.Color(192, 196, 254, 0.5),
       pixelOffset: new Cesium.Cartesian2(0, -4),
+      fixNum: 1,
       //地形贴地长度测量
       isTerrain: true,
       paneNum: 32,
       showMoreInfo: true,
       // 量测结果单位，可选"meters" | "kilometers"
       unit: 'meters',
+      pointIcon: '../../../public/images/map_marker.svg',
+      closeIcon: '../../../public/images/map_marker.svg',
       pointStyle: {
-        color: Cesium.Color.RED,
+        pixelSize: 5,
+        color: Cesium.Color.fromCssColorString('#00c2ff'),
+        outlineColor: Cesium.Color.WHITE,
+        outlineWidth: 2,
+        disableDepthTestDistance: Number.POSITIVE_INFINITY,
       },
       lineStyle: {
-        material: new Cesium.PolylineGlowMaterialProperty({
-          glowPower: 0.15,
-          color: Cesium.Color.fromCssColorString('#568aea'),
+        width: 2,
+        material: new Cesium.PolylineDashMaterialProperty({
+          color: Cesium.Color.fromCssColorString('#00c2ff'),
         }),
         depthFailMaterial: new Cesium.PolylineGlowMaterialProperty({
           glowPower: 0.1,
           color: Cesium.Color.fromCssColorString('#00c2ff'),
         }),
       },
+
       //测量完毕后提示框的回调函数，可以覆盖提示内容
       labelCallBack: function (currentLength, totalLength, label) {
-        label.text =
-          '前段长度：' +
-          currentLength.toFixed(2).toString() +
-          '米' +
-          '\n' +
-          '总长度' +
-          totalLength.toFixed(2).toString() +
-          '米';
-        label.fillColor = Cesium.Color.BLUE;
+        label.text = '总长度' + totalLength.toFixed(1).toString() + '米';
+        label.fillColor = Cesium.Color.fromCssColorString('FFFFFF');
       },
     };
   } else if (measureType === 'area') {
     options = {
-      font: '13pt 楷体',
-      fillColor: new Cesium.Color(1.0, 0.0, 0.0, 1.0),
+      font: '1pt 微软雅黑',
+      fillColor: Cesium.Color.fromCssColorString('#FFFFFF'),
       outlineColor: new Cesium.Color(1.0, 1.0, 0.0, 0.5),
       outlineWidth: 4.0,
       verticalOrigin: Cesium.VerticalOrigin.BOTTOM,
-      showBackground: true,
-      backgroundColor: new Cesium.Color(0, 0.6, 0.1, 0.4),
+      showBackground: false,
+      // backgroundColor: new Cesium.Color(0, 0.6, 0.1, 0.4),
       pixelOffset: new Cesium.Cartesian2(0, -4),
       isTerrain: true,
       classificationType: 2,
       lineStyle: {
-        material: new Cesium.PolylineGlowMaterialProperty({
-          glowPower: 0.15,
-          color: Cesium.Color.RED,
+        width: 2,
+        material: new Cesium.PolylineDashMaterialProperty({
+          color: Cesium.Color.fromCssColorString('#00c2ff'),
         }),
         depthFailMaterial: new Cesium.PolylineGlowMaterialProperty({
-          glowPower: 0.15,
-          color: Cesium.Color.RED,
+          glowPower: 0.1,
+          color: Cesium.Color.fromCssColorString('#00c2ff'),
         }),
       },
       //是否连续绘制，true：是，false：否
@@ -74,8 +77,8 @@ function measureToolsConfig(measureType) {
       },
       //测量完毕后提示框的回调函数，可以覆盖提示内容
       labelCallBack: function (result, label) {
-        label.text = '当前面积：' + result.toFixed(2).toString() + '平方米';
-        label.fillColor = Cesium.Color.BLUE;
+        label.text = '当前面积：' + result.toFixed(1).toString() + '平方米';
+        label.fillColor = Cesium.Color.fromCssColorString('FFFFFF');
       },
     };
   } else if (measureType === 'azimuth') {
@@ -84,18 +87,25 @@ function measureToolsConfig(measureType) {
       isFixAxis: true,
       //提示框样式
       labelStyle: {
-        font: '13pt 微软雅黑',
+        font: '1pt 微软雅黑',
+        fillColor: Cesium.Color.fromCssColorString('#FFFFFF'),
         // fillColor: new Cesium.Color(1.0, 1.0, 1.0, 1.0),
         // outlineColor: new Cesium.Color(1.0, 1.0, 0.0, 0.5),
         // outlineWidth: 4.0,
         verticalOrigin: Cesium.VerticalOrigin.BOTTOM,
         showBackground: false,
-
         pixelOffset: new Cesium.Cartesian2(0, -4),
       },
       //测量线式
       lineStyle: {
-        width: 3,
+        width: 2,
+        material: new Cesium.PolylineDashMaterialProperty({
+          color: Cesium.Color.fromCssColorString('#00c2ff'),
+        }),
+        depthFailMaterial: new Cesium.PolylineGlowMaterialProperty({
+          glowPower: 0.1,
+          color: Cesium.Color.fromCssColorString('#00c2ff'),
+        }),
       },
       //删除测量结果图标样式
       closePointStyle: {
@@ -117,7 +127,7 @@ function measureToolsConfig(measureType) {
 
       //测量完毕后提示框的回调函数，可以覆盖提示内容
       labelCallBack: function (angle, label) {
-        label.text = '方位角为：' + angle.toFixed(2).toString();
+        label.text = '方位角为：' + angle.toFixed(1).toString();
       },
     };
   } else {

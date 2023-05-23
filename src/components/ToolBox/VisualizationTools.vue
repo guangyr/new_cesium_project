@@ -273,7 +273,7 @@ export default {
       //设置洪水淹没区域动画开始高度
       floodAnalysis.minHeight = 0;
       //设置洪水淹没区域最高高度
-      floodAnalysis.maxHeight = 10;
+      floodAnalysis.maxHeight = 12;
       //反射光线强度
       floodAnalysis.specularIntensity = 1;
       //水波高度

@@ -49,19 +49,20 @@ export default {
   methods: {
     // 添加点光源效果
     pointLightEffect() {
+      this.shiftfunction('pointLightEffect');
       this.removePointLightEffect();
+      let that = this;
       // 监听鼠标点击事件添加点光源
       viewer.screenSpaceEventHandler.setInputAction(function (movement) {
         // 在模型上拾取一个点并偏移,保证点光源距模型一定距离
         let cartesian = viewer.scene.pickPosition(movement.position);
-        console.log(cartesian);
+        // console.log(cartesian);
         let cartographic = Cesium.Cartographic.fromCartesian(cartesian);
         cartesian = Cesium.Cartesian3.fromDegrees(
           Cesium.Math.toDegrees(cartographic.longitude),
           Cesium.Math.toDegrees(cartographic.latitude),
           cartographic.height + 30
         );
-
         // 添加光源
         pointLight = new Cesium.PointLight({
           position: cartesian,
@@ -71,41 +72,44 @@ export default {
           color: new Cesium.Color(1.0, 1.0, 1.0, 1.0),
         });
         viewer.scene.addLight(pointLight);
+        // that.addLightModel(cartesian);
         // 添加点光源模型，方便交互移动位置
         // addLightModel(cartesian);
         // 每一帧根据点光源模型位置更新点光源位置
-        viewer.scene.preUpdate.addEventListener(function () {
-          var newPos = Cesium.Matrix4.getTranslation(
-            lightModel.modelMatrix,
-            new Cesium.Cartesian3()
-          );
-          pointLight.position = newPos;
-        });
+        // viewer.scene.preUpdate.addEventListener(function () {
+        //   var newPos = Cesium.Matrix4.getTranslation(
+        //     lightModel.modelMatrix,
+        //     new Cesium.Cartesian3()
+        //   );
+        //   pointLight.position = newPos;
+        // });
 
         // 移除鼠标点击事件添加点光源
         viewer.screenSpaceEventHandler.removeInputAction(
           Cesium.ScreenSpaceEventType.LEFT_CLICK
         );
+        // 移除鼠标点击事件添加点光源
+        viewer.screenSpaceEventHandler.removeInputAction(
+          Cesium.ScreenSpaceEventType.LEFT_CLICK
+        );
       }, Cesium.ScreenSpaceEventType.LEFT_CLICK);
+      // 右键移除光源效果
+      viewer.screenSpaceEventHandler.setInputAction(function (movement) {
+        that.removePointLightEffect();
+      }, Cesium.ScreenSpaceEventType.RIGHT_CLICK);
     },
+
     // 移除点光源效果
     removePointLightEffect() {
-      // // 移除点光源
       viewer.scene.removeLight(pointLight);
-      // // 移除方便交互移动光源的模型
-      // viewer.scene.primitives.remove(lightModel);
-      // 移除模型编辑器
-      // if (transformEditor) {
-      //   if (transformEditor.viewModel) {
-      //     transformEditor.viewModel.deactivate();
-      //   }
-      // }
     },
+
     // 添加聚光源效果
     spotLightEffect() {
+      this.shiftfunction('spotLightEffect');
       // 移除上一次添加的光源
       this.removespotLightEffect();
-
+      let that = this;
       // 监听鼠标点击事件添加光源
       viewer.screenSpaceEventHandler.setInputAction(function (movement) {
         // 在模型上拾取一个点并偏移,保证光源距模型一定距离
@@ -145,6 +149,11 @@ export default {
           Cesium.ScreenSpaceEventType.LEFT_CLICK
         );
       }, Cesium.ScreenSpaceEventType.LEFT_CLICK);
+      // 右键移除光源效果
+      viewer.screenSpaceEventHandler.setInputAction(function (movement) {
+        that.removespotLightEffect();
+        console.log('移除聚光源效果');
+      }, Cesium.ScreenSpaceEventType.RIGHT_CLICK);
     },
     // 移除聚光源效果
     removespotLightEffect() {
@@ -153,6 +162,9 @@ export default {
     },
     // 添加方向光效果
     directionLightEffect() {
+      this.shiftfunction('directionLightEffect');
+      this.removedirectionLightEffect();
+      let that = this;
       // 构造绘制工具
       let drawElement = new Cesium.DrawElement(viewer);
       drawElement.startDrawingPolyline({
@@ -186,6 +198,10 @@ export default {
           drawElement.stopDrawing();
         },
       });
+      // 右键移除光源效果
+      viewer.screenSpaceEventHandler.setInputAction(function (movement) {
+        that.removedirectionLightEffect();
+      }, Cesium.ScreenSpaceEventType.RIGHT_CLICK);
     },
     // 移除方向光效果
     removedirectionLightEffect() {
@@ -198,6 +214,17 @@ export default {
         duration: 2,
         autoReset: true,
       });
+    },
+    // 功能切换时清除上一个功能的效果
+    shiftfunction(action) {
+      if (action !== 'pointLightEffect') {
+        this.removePointLightEffect();
+        this.removedirectionLightEffect();
+      } else if (action !== 'spotLightEffect') {
+        this.removespotLightEffect();
+      } else if (action !== 'directionLightEffect') {
+        this.removedirectionLightEffect();
+      }
     },
   },
 };

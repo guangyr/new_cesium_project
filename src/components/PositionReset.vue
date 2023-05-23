@@ -1,7 +1,7 @@
 <template>
   <div
     class="position-reset iconfont icon-dingwei"
-    @click="logClickPosition()"
+    @click="flyToDefaultPositon()"
   ></div>
 </template>
 <script>
@@ -44,7 +44,6 @@ export default {
         const _height = Cesium.Math.toDegrees(height);
         // console.log(lon, lat, _height);
       }, Cesium.ScreenSpaceEventType.LEFT_CLICK);
-      console.log('aa');
     },
     // logClickPosition() {
     //   let handlers = new Cesium.ScreenSpaceEventHandler(
